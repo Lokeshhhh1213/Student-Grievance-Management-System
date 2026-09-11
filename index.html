@@ -55,87 +55,61 @@
     </header>
 
     <main>
-        <!-- Hero Section with 3D Holographic Visualizer -->
+        <!-- Hero Section -->
         <section class="hero">
             <div class="container hero-grid">
-                <div class="hero-content-col">
+                <div>
                     <div class="hero-badge">
-                        <span>🛡️</span> Transparent & Confidential 3D Grievance Core
+                        <span>🛡️</span> Transparent & Confidential Campus Grievance System
                     </div>
-                    <h1 class="hero-title">Your Voice <span class="text-gradient">Matters in 3D</span></h1>
-                    <p class="hero-subtitle">Interactive real-time campus grievance management. Submit concerns, track administrative resolution in 3D timeline, and experience 100% transparency.</p>
+                    <h1 class="hero-title">Your Voice <span class="text-gradient">Matters</span></h1>
+                    <p class="hero-subtitle">Report your concerns, share feedback, and help us improve your college experience with rapid administrative action and complete transparency.</p>
                     
-                    <div class="d-flex gap-2 flex-wrap mb-4">
-                        <a href="submit-complaint.html" class="btn btn-primary btn-lg btn-3d">✨ Submit a Complaint</a>
-                        <a href="track-complaint.html" class="btn btn-secondary btn-lg">🔍 Track Ticket</a>
-                    </div>
-
-                    <!-- 3D Interactive Feature Badges -->
-                    <div class="d-flex gap-3 flex-wrap">
-                        <div class="d-flex align-center gap-1 small text-muted">
-                            <span class="badge-3d" style="background: rgba(99,102,241,0.2); color:#a5b4fc; border: 1px solid rgba(99,102,241,0.4);">⚡ Instant Routing</span>
-                        </div>
-                        <div class="d-flex align-center gap-1 small text-muted">
-                            <span class="badge-3d" style="background: rgba(16,185,129,0.2); color:#6ee7b7; border: 1px solid rgba(16,185,129,0.4);">🔒 Encrypted & Secure</span>
-                        </div>
-                        <div class="d-flex align-center gap-1 small text-muted">
-                            <span class="badge-3d" style="background: rgba(6,182,212,0.2); color:#67e8f9; border: 1px solid rgba(6,182,212,0.4);">🌐 3D Live Timeline</span>
-                        </div>
+                    <div class="d-flex gap-2 flex-wrap">
+                        <a href="submit-complaint.html" class="btn btn-primary btn-lg">✨ Submit a Complaint</a>
+                        <a href="track-complaint.html" class="btn btn-secondary btn-lg">🔍 Track Complaint</a>
                     </div>
                 </div>
 
-                <!-- 3D Interactive Hologram Visualizer & Quick Tracker -->
-                <div class="hero-3d-visual-wrap">
-                    <div id="hero-3d-container">
-                        <!-- Three.js 3D WebGL Hologram or Fallback Canvas Renders Here -->
-                    </div>
-
-                    <!-- Floating 3D Hologram Data Tags -->
-                    <div class="hero-floating-badge badge-top-right">
-                        <div class="badge-icon-box">🛡️</div>
-                        <div class="badge-text">
-                            <strong>Active Redressal Node</strong>
-                            <span>24/7 Monitored Dispatch</span>
+                <div class="hero-card">
+                    <h3>🔍 Quick Complaint Tracker</h3>
+                    <p>Already lodged a complaint? Enter your grievance ticket ID to monitor live resolution progress in real-time timeline.</p>
+                    <form action="track-complaint.html" method="GET" class="d-flex flex-column gap-2">
+                        <div class="form-group mb-0">
+                            <input type="text" name="id" class="form-control" placeholder="e.g. CMP-2026-00101" required style="background: rgba(255,255,255,0.95); border-color: rgba(99,102,241,0.3);">
                         </div>
-                    </div>
-
-                    <div class="hero-floating-badge badge-bottom-left">
-                        <div class="badge-icon-box">⚡</div>
-                        <div class="badge-text">
-                            <strong>Average Resolution</strong>
-                            <span>Under 48 Hours</span>
-                        </div>
-                    </div>
+                        <button type="submit" class="btn btn-primary w-100">Check Status Now</button>
+                    </form>
                 </div>
             </div>
         </section>
 
-        <!-- Live Portal Statistics with 3D Tilt -->
+        <!-- Live Portal Statistics -->
         <section class="section" style="padding: 3rem 0; background: var(--white); border-bottom: 1px solid var(--slate-200);">
             <div class="container">
                 <div class="stats-grid">
-                    <div class="stat-card" data-tilt data-tilt-max="12">
+                    <div class="stat-card">
                         <div class="stat-icon blue">📋</div>
                         <div>
                             <div class="stat-value" id="landing-stat-total">0</div>
                             <div class="stat-label">Total Complaints</div>
                         </div>
                     </div>
-                    <div class="stat-card" data-tilt data-tilt-max="12">
+                    <div class="stat-card">
                         <div class="stat-icon green">✅</div>
                         <div>
                             <div class="stat-value" id="landing-stat-resolved">0</div>
                             <div class="stat-label">Resolved Issues</div>
                         </div>
                     </div>
-                    <div class="stat-card" data-tilt data-tilt-max="12">
+                    <div class="stat-card">
                         <div class="stat-icon amber">⏳</div>
                         <div>
                             <div class="stat-value" id="landing-stat-pending">0</div>
                             <div class="stat-label">Pending / In Progress</div>
                         </div>
                     </div>
-                    <div class="stat-card" data-tilt data-tilt-max="12">
+                    <div class="stat-card">
                         <div class="stat-icon purple">👥</div>
                         <div>
                             <div class="stat-value" id="landing-stat-students">0</div>
@@ -183,71 +157,72 @@
             </div>
         </section>
 
-        <!-- 3D Interactive Categories Showcase -->
+        <!-- Categories Section -->
         <section class="section" style="background: var(--white); border-top: 1px solid var(--slate-200); border-bottom: 1px solid var(--slate-200);">
             <div class="container">
                 <div class="section-header">
-                    <span class="section-tag">Interactive 3D Scope</span>
+                    <span class="section-tag">Scope of Support</span>
                     <h2 class="section-title">Complaint & Grievance Categories</h2>
-                    <p class="section-desc">Our redressal system handles complaints across all major academic, infrastructural, and student welfare branches with 3D tilt tracking.</p>
+                    <p class="section-desc">Our redressal system handles complaints across all major academic, infrastructural, and student welfare branches.</p>
                 </div>
 
                 <div class="grid-4">
-                    <a href="submit-complaint.html" class="category-card-3d" data-tilt data-tilt-max="14">
-                        <div class="category-icon-3d" style="background: #e0f2fe; color: #0284c7;">📚</div>
-                        <h4>Academic</h4>
-                        <p>Coursework, grading, and syllabus concerns.</p>
-                        <span class="category-badge-3d">Report Issue →</span>
-                    </a>
-
-                    <a href="submit-complaint.html" class="category-card-3d" data-tilt data-tilt-max="14">
-                        <div class="category-icon-3d" style="background: #fef3c7; color: #d97706;">👨‍🏫</div>
-                        <h4>Faculty</h4>
-                        <p>Teaching feedback and lecture scheduling.</p>
-                        <span class="category-badge-3d">Report Issue →</span>
-                    </a>
-
-                    <a href="submit-complaint.html" class="category-card-3d" data-tilt data-tilt-max="14">
-                        <div class="category-icon-3d" style="background: #ede9fe; color: #7c3aed;">🏢</div>
-                        <h4>Hostel & Mess</h4>
-                        <p>Room maintenance, water, and power utilities.</p>
-                        <span class="category-badge-3d">Report Issue →</span>
-                    </a>
-
-                    <a href="submit-complaint.html" class="category-card-3d" data-tilt data-tilt-max="14">
-                        <div class="category-icon-3d" style="background: #fee2e2; color: #e11d48;">🍱</div>
-                        <h4>Canteen & Food</h4>
-                        <p>Meal hygiene, quality, and fair pricing.</p>
-                        <span class="category-badge-3d">Report Issue →</span>
-                    </a>
-
-                    <a href="submit-complaint.html" class="category-card-3d" data-tilt data-tilt-max="14">
-                        <div class="category-icon-3d" style="background: #e0e7ff; color: #4338ca;">🚌</div>
-                        <h4>Transportation</h4>
-                        <p>Bus routes, timings, and transit passes.</p>
-                        <span class="category-badge-3d">Report Issue →</span>
-                    </a>
-
-                    <a href="submit-complaint.html" class="category-card-3d" data-tilt data-tilt-max="14">
-                        <div class="category-icon-3d" style="background: #d1fae5; color: #059669;">💡</div>
-                        <h4>Infrastructure</h4>
-                        <p>Classrooms, lab equipment, and sanitation.</p>
-                        <span class="category-badge-3d">Report Issue →</span>
-                    </a>
-
-                    <a href="submit-complaint.html" class="category-card-3d" data-tilt data-tilt-max="14">
-                        <div class="category-icon-3d" style="background: #fce7f3; color: #db2777;">📖</div>
-                        <h4>Central Library</h4>
-                        <p>Book availability, digital access & hours.</p>
-                        <span class="category-badge-3d">Report Issue →</span>
-                    </a>
-
-                    <a href="submit-complaint.html" class="category-card-3d" data-tilt data-tilt-max="14">
-                        <div class="category-icon-3d" style="background: #ccfbf1; color: #0d9488;">💻</div>
-                        <h4>Technical & IT</h4>
-                        <p>Campus Wi-Fi, portals, and computer labs.</p>
-                        <span class="category-badge-3d">Report Issue →</span>
-                    </a>
+                    <div class="category-card">
+                        <div class="category-icon">📚</div>
+                        <div class="category-info">
+                            <h4>Academic</h4>
+                            <p>Coursework & syllabus issues</p>
+                        </div>
+                    </div>
+                    <div class="category-card">
+                        <div class="category-icon">👨‍🏫</div>
+                        <div class="category-info">
+                            <h4>Faculty</h4>
+                            <p>Teaching & lecture feedback</p>
+                        </div>
+                    </div>
+                    <div class="category-card">
+                        <div class="category-icon">🏢</div>
+                        <div class="category-info">
+                            <h4>Hostel</h4>
+                            <p>Room maintenance & utilities</p>
+                        </div>
+                    </div>
+                    <div class="category-card">
+                        <div class="category-icon">🍱</div>
+                        <div class="category-info">
+                            <h4>Canteen</h4>
+                            <p>Food hygiene, quality & pricing</p>
+                        </div>
+                    </div>
+                    <div class="category-card">
+                        <div class="category-icon">🚌</div>
+                        <div class="category-info">
+                            <h4>Transportation</h4>
+                            <p>Bus routes & schedule delays</p>
+                        </div>
+                    </div>
+                    <div class="category-card">
+                        <div class="category-icon">💡</div>
+                        <div class="category-info">
+                            <h4>Infrastructure</h4>
+                            <p>Fans, classrooms, sanitation</p>
+                        </div>
+                    </div>
+                    <div class="category-card">
+                        <div class="category-icon">📖</div>
+                        <div class="category-info">
+                            <h4>Library</h4>
+                            <p>Timings, book availability</p>
+                        </div>
+                    </div>
+                    <div class="category-card">
+                        <div class="category-icon">💻</div>
+                        <div class="category-info">
+                            <h4>Technical & IT</h4>
+                            <p>Campus Wi-Fi, lab equipment</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -381,9 +356,7 @@
         </div>
     </footer>
 
-    <!-- Scripts & 3D WebGL Engine -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="js/three-scene.js"></script>
+    <!-- Scripts -->
     <script src="js/storage.js"></script>
     <script src="js/auth.js"></script>
     <script src="js/complaints.js"></script>
