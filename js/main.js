@@ -1,11 +1,11 @@
 /**
- * Student Complaint & Grievance Management System - Global UI Utilities
+ * Student Complaint & Grievance Management System - Global UI Utilities & 3D Engine
  * 
  * Note: This project uses localStorage because it is a frontend-only academic project.
  * Production systems should use a secure backend and database.
  */
 
-// Toast Notifications System
+// Toast Notifications System with 3D Depth
 const Toast = {
     container: null,
 
@@ -113,8 +113,75 @@ function showConfirmDialog(title, message, onConfirm, confirmText = 'Confirm', i
     };
 }
 
-// Mobile Navbar and Sidebar Toggle Handler
+/* ==========================================================================
+   3D Tilt & Mouse Physics Engine
+   ========================================================================== */
+const Interactive3D = {
+    init() {
+        const selector = '.tilt-3d, .stat-card, .feature-card, .hero-card, .auth-card, .complaint-card, .category-card, .priority-metric-card';
+        
+        const attachTilt = (el) => {
+            if (el.dataset.tiltAttached) return;
+            el.dataset.tiltAttached = 'true';
+
+            el.addEventListener('mousemove', (e) => {
+                const rect = el.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+
+                const deltaX = (x - centerX) / centerX;
+                const deltaY = (y - centerY) / centerY;
+
+                // 3D rotation angles
+                const rotateX = -deltaY * 8; // degrees
+                const rotateY = deltaX * 8;
+
+                el.style.setProperty('--mouse-x', `${(x / rect.width) * 100}%`);
+                el.style.setProperty('--mouse-y', `${(y / rect.height) * 100}%`);
+                
+                el.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-6px) scale3d(1.015, 1.015, 1.015)`;
+            });
+
+            el.addEventListener('mouseleave', () => {
+                el.style.transform = '';
+                el.style.removeProperty('--mouse-x');
+                el.style.removeProperty('--mouse-y');
+            });
+        };
+
+        // Attach to existing elements
+        document.querySelectorAll(selector).forEach(attachTilt);
+
+        // MutationObserver for dynamically added elements (like complaints lists)
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach(() => {
+                document.querySelectorAll(selector).forEach(attachTilt);
+            });
+        });
+
+        observer.observe(document.body, { childList: true, subtree: true });
+    },
+
+    createAmbientOrbs() {
+        if (document.querySelector('.ambient-glow-1')) return;
+        const orb1 = document.createElement('div');
+        orb1.className = 'ambient-glow-1';
+        const orb2 = document.createElement('div');
+        orb2.className = 'ambient-glow-2';
+        document.body.appendChild(orb1);
+        document.body.appendChild(orb2);
+    }
+};
+
+// Global Page Handlers
 document.addEventListener('DOMContentLoaded', () => {
+    // Initialize 3D Engine
+    Interactive3D.init();
+    Interactive3D.createAmbientOrbs();
+
     // Mobile Navigation Hamburger
     const navToggle = document.querySelector('.navbar-toggle');
     const navMenu = document.querySelector('.navbar-menu');
@@ -149,17 +216,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Auto-update header profile/logout info if logged in on public pages
     const authNavSlot = document.getElementById('auth-nav-slot');
-    if (authNavSlot) {
+    if (authNavSlot && typeof Storage !== 'undefined') {
         const student = Storage.getCurrentStudent();
         if (student) {
             authNavSlot.innerHTML = `
-                <a href="dashboard.html" class="btn btn-outline-primary">Dashboard</a>
-                <a href="javascript:void(0)" onclick="Auth.logoutStudent('index.html')" class="btn btn-danger-soft">Logout</a>
+                <a href="dashboard.html" class="btn btn-outline-primary btn-sm">Dashboard</a>
+                <a href="javascript:void(0)" onclick="Auth.logoutStudent('index.html')" class="btn btn-danger-soft btn-sm">Logout</a>
             `;
         } else {
             authNavSlot.innerHTML = `
-                <a href="login.html" class="btn btn-outline-primary">Login</a>
-                <a href="register.html" class="btn btn-primary">Register</a>
+                <a href="login.html" class="btn btn-outline-primary btn-sm">Student Login</a>
+                <a href="register.html" class="btn btn-primary btn-sm">Register</a>
             `;
         }
     }

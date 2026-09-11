@@ -90,12 +90,12 @@ const AdminController = {
             });
 
             const statusColors = {
-                'Submitted': '#3b82f6',
-                'Under Review': '#8b5cf6',
-                'In Progress': '#f59e0b',
-                'Resolved': '#10b981',
-                'Rejected': '#ef4444',
-                'Closed': '#64748b'
+                'Submitted': '#0284c7',
+                'Under Review': '#7c3aed',
+                'In Progress': '#d97706',
+                'Resolved': '#059669',
+                'Rejected': '#e11d48',
+                'Closed': '#475569'
             };
 
             statusContainer.innerHTML = `
