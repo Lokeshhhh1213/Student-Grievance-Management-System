@@ -1,11 +1,70 @@
 /**
- * Student Complaint & Grievance Management System - Global UI Utilities
+ * Student Complaint & Grievance Management System - Global UI Utilities & 3D Engine
  * 
  * Note: This project uses localStorage because it is a frontend-only academic project.
  * Production systems should use a secure backend and database.
  */
 
-// Toast Notifications System
+// Theme Management System (Dark / Light Mode)
+const ThemeManager = {
+    init() {
+        const savedTheme = localStorage.getItem('app_theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        this.applyTheme(savedTheme);
+        this.renderToggleButtons();
+    },
+
+    applyTheme(theme) {
+        if (theme === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+        } else {
+            document.documentElement.removeAttribute('data-theme');
+        }
+        localStorage.setItem('app_theme', theme);
+        this.updateToggleIcons(theme);
+    },
+
+    toggle() {
+        const currentTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        this.applyTheme(newTheme);
+    },
+
+    updateToggleIcons(theme) {
+        document.querySelectorAll('.theme-toggle-btn').forEach(btn => {
+            btn.innerHTML = theme === 'dark' ? '☀️' : '🌙';
+            btn.setAttribute('aria-label', theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode');
+            btn.title = theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode';
+        });
+    },
+
+    renderToggleButtons() {
+        const currentTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+        
+        // Check for public navbar actions
+        const navbarActions = document.querySelector('.navbar-actions');
+        if (navbarActions && !navbarActions.querySelector('.theme-toggle-btn')) {
+            const toggleBtn = document.createElement('button');
+            toggleBtn.type = 'button';
+            toggleBtn.className = 'theme-toggle-btn';
+            toggleBtn.innerHTML = currentTheme === 'dark' ? '☀️' : '🌙';
+            toggleBtn.onclick = () => this.toggle();
+            navbarActions.appendChild(toggleBtn);
+        }
+
+        // Check for dashboard topbar actions
+        const topbarActions = document.querySelector('.dashboard-topbar .d-flex.align-center:last-child');
+        if (topbarActions && !topbarActions.querySelector('.theme-toggle-btn')) {
+            const toggleBtn = document.createElement('button');
+            toggleBtn.type = 'button';
+            toggleBtn.className = 'theme-toggle-btn';
+            toggleBtn.innerHTML = currentTheme === 'dark' ? '☀️' : '🌙';
+            toggleBtn.onclick = () => this.toggle();
+            topbarActions.prepend(toggleBtn);
+        }
+    }
+};
+
+// Toast Notifications System (3D Acrylic Glass)
 const Toast = {
     container: null,
 
@@ -25,10 +84,10 @@ const Toast = {
         toast.className = `toast toast-${type} animate-slide-in`;
 
         const iconMap = {
-            success: `<svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>`,
-            error: `<svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>`,
-            warning: `<svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>`,
-            info: `<svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>`
+            success: `<svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>`,
+            error: `<svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>`,
+            warning: `<svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>`,
+            info: `<svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>`
         };
 
         toast.innerHTML = `
@@ -63,12 +122,12 @@ const Toast = {
     }
 };
 
-// Global helper for simple call
+// Global helper for simple toast call
 function showToast(message, type = 'info', duration = 4000) {
     Toast.show(message, type, duration);
 }
 
-// Confirmation Modal Dialog Helper
+// 3D Confirmation Modal Dialog Helper
 function showConfirmDialog(title, message, onConfirm, confirmText = 'Confirm', isDestructive = false) {
     let modalBackdrop = document.getElementById('global-confirm-modal');
     if (!modalBackdrop) {
@@ -113,26 +172,55 @@ function showConfirmDialog(title, message, onConfirm, confirmText = 'Confirm', i
     };
 }
 
-// 3D Lighting & Tactile Surface Engine (Safe Full-Screen Mode)
-const Interactive3DLight = {
+// Advanced 3D Mouse Parallax & Dynamic Light Sheen Physics Engine
+const Interactive3DTilt = {
     init() {
-        const selector = '.card, .stat-card, .feature-card, .category-card, .complaint-card, .hero-card, .auth-card';
-        const attachLight = (el) => {
-            if (el.dataset.light3dAttached) return;
-            el.dataset.light3dAttached = 'true';
+        const selector = '.card, .stat-card, .feature-card, .category-card, .complaint-card, .hero-card, .auth-card, .priority-metric-card';
+        
+        const attachTilt = (el) => {
+            if (el.dataset.tilt3dAttached) return;
+            el.dataset.tilt3dAttached = 'true';
 
-            el.addEventListener('mousemove', (e) => {
-                const rect = el.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                el.style.setProperty('--mouse-x', `${((x / rect.width) * 100).toFixed(1)}%`);
-                el.style.setProperty('--mouse-y', `${((y / rect.height) * 100).toFixed(1)}%`);
-            });
+            let bounds;
+
+            const onMouseEnter = () => {
+                bounds = el.getBoundingClientRect();
+                el.style.transition = 'transform 0.12s ease-out, box-shadow 0.2s ease-out';
+            };
+
+            const onMouseMove = (e) => {
+                if (!bounds) bounds = el.getBoundingClientRect();
+                const mouseX = e.clientX - bounds.left;
+                const mouseY = e.clientY - bounds.top;
+
+                const percentX = mouseX / bounds.width;
+                const percentY = mouseY / bounds.height;
+
+                // Set CSS variables for dynamic specular reflection
+                el.style.setProperty('--mouse-x', `${(percentX * 100).toFixed(1)}%`);
+                el.style.setProperty('--mouse-y', `${(percentY * 100).toFixed(1)}%`);
+
+                // Calculate tilt degrees (Max 8-10 degrees for clean 3D feel)
+                const tiltX = ((percentY - 0.5) * -12).toFixed(2);
+                const tiltY = ((percentX - 0.5) * 12).toFixed(2);
+
+                el.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) translateY(-5px) scale3d(1.015, 1.015, 1.015)`;
+            };
+
+            const onMouseLeave = () => {
+                el.style.transition = 'transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.45s cubic-bezier(0.16, 1, 0.3, 1)';
+                el.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0) scale3d(1, 1, 1)';
+            };
+
+            el.addEventListener('mouseenter', onMouseEnter, { passive: true });
+            el.addEventListener('mousemove', onMouseMove, { passive: true });
+            el.addEventListener('mouseleave', onMouseLeave, { passive: true });
         };
 
-        document.querySelectorAll(selector).forEach(attachLight);
+        document.querySelectorAll(selector).forEach(attachTilt);
+
         const observer = new MutationObserver(() => {
-            document.querySelectorAll(selector).forEach(attachLight);
+            document.querySelectorAll(selector).forEach(attachTilt);
         });
         observer.observe(document.body, { childList: true, subtree: true });
     }
@@ -140,8 +228,11 @@ const Interactive3DLight = {
 
 // Global Page Handlers
 document.addEventListener('DOMContentLoaded', () => {
-    // Initialize 3D Lighting
-    Interactive3DLight.init();
+    // Initialize Theme System
+    ThemeManager.init();
+
+    // Initialize 3D Tilt Engine
+    Interactive3DTilt.init();
 
     // Mobile Navigation Hamburger
     const navToggle = document.querySelector('.navbar-toggle');
@@ -190,5 +281,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <a href="register.html" class="btn btn-primary btn-sm">Register</a>
             `;
         }
+        // Re-check theme toggle
+        ThemeManager.renderToggleButtons();
     }
 });
