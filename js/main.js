@@ -359,8 +359,94 @@ const Interactive3DConstellation = {
     }
 };
 
+// Custom Fluid 3D Magnetic Cursor Manager
+const CustomCursorManager = {
+    dot: null,
+    ring: null,
+    cursorX: -100,
+    cursorY: -100,
+    ringX: -100,
+    ringY: -100,
+    isHovered: false,
+
+    init() {
+        if (window.matchMedia('(pointer: coarse)').matches) return; // Ignore on touch screens
+
+        this.dot = document.createElement('div');
+        this.dot.className = 'custom-cursor-dot';
+
+        this.ring = document.createElement('div');
+        this.ring.className = 'custom-cursor-ring';
+
+        document.body.appendChild(this.dot);
+        document.body.appendChild(this.ring);
+
+        window.addEventListener('mousemove', (e) => {
+            this.cursorX = e.clientX;
+            this.cursorY = e.clientY;
+            this.dot.style.left = `${this.cursorX}px`;
+            this.dot.style.top = `${this.cursorY}px`;
+        }, { passive: true });
+
+        window.addEventListener('mousedown', () => {
+            this.ring.classList.add('clicking');
+        });
+
+        window.addEventListener('mouseup', () => {
+            this.ring.classList.remove('clicking');
+        });
+
+        document.addEventListener('mouseleave', () => {
+            this.dot.style.opacity = '0';
+            this.ring.style.opacity = '0';
+        });
+
+        document.addEventListener('mouseenter', () => {
+            this.dot.style.opacity = '1';
+            this.ring.style.opacity = '1';
+        });
+
+        // Interactive hover states
+        const interactiveSelector = 'a, button, .btn, .card, .stat-card, .feature-card, .category-card, .complaint-card, input, select, textarea, .theme-toggle-btn, .sidebar-link, .nav-link, .faq-question';
+
+        const attachHover = (el) => {
+            if (el.dataset.cursorAttached) return;
+            el.dataset.cursorAttached = 'true';
+
+            el.addEventListener('mouseenter', () => {
+                this.ring.classList.add('hovered');
+            });
+            el.addEventListener('mouseleave', () => {
+                this.ring.classList.remove('hovered');
+            });
+        };
+
+        document.querySelectorAll(interactiveSelector).forEach(attachHover);
+
+        const observer = new MutationObserver(() => {
+            document.querySelectorAll(interactiveSelector).forEach(attachHover);
+        });
+        observer.observe(document.body, { childList: true, subtree: true });
+
+        // Fluid spring interpolation loop
+        const loop = () => {
+            this.ringX += (this.cursorX - this.ringX) * 0.18;
+            this.ringY += (this.cursorY - this.ringY) * 0.18;
+
+            this.ring.style.left = `${this.ringX}px`;
+            this.ring.style.top = `${this.ringY}px`;
+
+            requestAnimationFrame(loop);
+        };
+        loop();
+    }
+};
+
 // Global Page Handlers
 document.addEventListener('DOMContentLoaded', () => {
+    // Initialize Custom Fluid Magnetic Cursor
+    CustomCursorManager.init();
+
     // Initialize Theme System
     ThemeManager.init();
 
