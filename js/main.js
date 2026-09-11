@@ -1,11 +1,11 @@
 /**
- * Student Complaint & Grievance Management System - Global UI Utilities & 3D Engine
+ * Student Complaint & Grievance Management System - Global UI Utilities
  * 
  * Note: This project uses localStorage because it is a frontend-only academic project.
  * Production systems should use a secure backend and database.
  */
 
-// Toast Notifications System with 3D Depth
+// Toast Notifications System
 const Toast = {
     container: null,
 
@@ -113,74 +113,35 @@ function showConfirmDialog(title, message, onConfirm, confirmText = 'Confirm', i
     };
 }
 
-/* ==========================================================================
-   3D Tilt & Mouse Physics Engine
-   ========================================================================== */
-const Interactive3D = {
+// 3D Lighting & Tactile Surface Engine (Safe Full-Screen Mode)
+const Interactive3DLight = {
     init() {
-        const selector = '.tilt-3d, .stat-card, .feature-card, .hero-card, .auth-card, .complaint-card, .category-card, .priority-metric-card';
-        
-        const attachTilt = (el) => {
-            if (el.dataset.tiltAttached) return;
-            el.dataset.tiltAttached = 'true';
+        const selector = '.card, .stat-card, .feature-card, .category-card, .complaint-card, .hero-card, .auth-card';
+        const attachLight = (el) => {
+            if (el.dataset.light3dAttached) return;
+            el.dataset.light3dAttached = 'true';
 
             el.addEventListener('mousemove', (e) => {
                 const rect = el.getBoundingClientRect();
                 const x = e.clientX - rect.left;
                 const y = e.clientY - rect.top;
-
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-
-                const deltaX = (x - centerX) / centerX;
-                const deltaY = (y - centerY) / centerY;
-
-                // 3D rotation angles
-                const rotateX = -deltaY * 8; // degrees
-                const rotateY = deltaX * 8;
-
-                el.style.setProperty('--mouse-x', `${(x / rect.width) * 100}%`);
-                el.style.setProperty('--mouse-y', `${(y / rect.height) * 100}%`);
-                
-                el.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-6px) scale3d(1.015, 1.015, 1.015)`;
-            });
-
-            el.addEventListener('mouseleave', () => {
-                el.style.transform = '';
-                el.style.removeProperty('--mouse-x');
-                el.style.removeProperty('--mouse-y');
+                el.style.setProperty('--mouse-x', `${((x / rect.width) * 100).toFixed(1)}%`);
+                el.style.setProperty('--mouse-y', `${((y / rect.height) * 100).toFixed(1)}%`);
             });
         };
 
-        // Attach to existing elements
-        document.querySelectorAll(selector).forEach(attachTilt);
-
-        // MutationObserver for dynamically added elements (like complaints lists)
-        const observer = new MutationObserver((mutations) => {
-            mutations.forEach(() => {
-                document.querySelectorAll(selector).forEach(attachTilt);
-            });
+        document.querySelectorAll(selector).forEach(attachLight);
+        const observer = new MutationObserver(() => {
+            document.querySelectorAll(selector).forEach(attachLight);
         });
-
         observer.observe(document.body, { childList: true, subtree: true });
-    },
-
-    createAmbientOrbs() {
-        if (document.querySelector('.ambient-glow-1')) return;
-        const orb1 = document.createElement('div');
-        orb1.className = 'ambient-glow-1';
-        const orb2 = document.createElement('div');
-        orb2.className = 'ambient-glow-2';
-        document.body.appendChild(orb1);
-        document.body.appendChild(orb2);
     }
 };
 
 // Global Page Handlers
 document.addEventListener('DOMContentLoaded', () => {
-    // Initialize 3D Engine
-    Interactive3D.init();
-    Interactive3D.createAmbientOrbs();
+    // Initialize 3D Lighting
+    Interactive3DLight.init();
 
     // Mobile Navigation Hamburger
     const navToggle = document.querySelector('.navbar-toggle');
