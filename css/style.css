@@ -563,34 +563,57 @@ code {
 }
 
 /* ==========================================================================
-   Hero Section
+   Hero Section with 3D Interactive WebGL Hologram
    ========================================================================== */
 .hero {
-    background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+    background: radial-gradient(circle at 75% 30%, #1e1b4b 0%, #0f172a 70%, #080d1a 100%);
     color: #ffffff;
-    padding: 5rem 0 4.5rem;
+    padding: 4.5rem 0 4rem;
     position: relative;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: -20%;
+    right: -10%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, rgba(6, 182, 212, 0.05) 50%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    filter: blur(40px);
 }
 
 .hero-grid {
     display: grid;
-    grid-template-columns: 1.15fr 0.85fr;
-    gap: 3rem;
+    grid-template-columns: 1.15fr 0.95fr;
+    gap: 2.5rem;
     align-items: center;
+    position: relative;
+    z-index: 2;
+}
+
+.hero-content-col {
+    position: relative;
+    z-index: 3;
 }
 
 .hero-badge {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    padding: 0.4rem 1rem;
+    background: rgba(99, 102, 241, 0.15);
+    border: 1px solid rgba(165, 180, 252, 0.3);
+    backdrop-filter: blur(12px);
+    padding: 0.45rem 1.1rem;
     border-radius: var(--radius-full);
     font-size: 0.85rem;
     font-weight: 600;
     margin-bottom: 1.25rem;
     color: #c7d2fe;
+    box-shadow: 0 4px 14px rgba(79, 70, 229, 0.2);
 }
 
 .hero-title {
@@ -599,10 +622,14 @@ code {
     color: #ffffff;
     line-height: 1.15;
     margin-bottom: 1rem;
+    letter-spacing: -0.02em;
 }
 
 .hero-title .text-gradient {
-    color: #93c5fd;
+    background: linear-gradient(135deg, #93c5fd 0%, #a5b4fc 50%, #c084fc 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
 }
 
 .hero-subtitle {
@@ -610,35 +637,136 @@ code {
     color: #cbd5e1;
     margin-bottom: 2rem;
     max-width: 520px;
+    line-height: 1.65;
+}
+
+/* 3D Hologram Scene Visualizer Container */
+.hero-3d-visual-wrap {
+    position: relative;
+    width: 100%;
+    min-height: 420px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    perspective: 1200px;
+}
+
+#hero-3d-container {
+    width: 100%;
+    height: 380px;
+    position: relative;
+    cursor: grab;
+}
+
+#hero-3d-container:active {
+    cursor: grabbing;
+}
+
+#hero-3d-container canvas {
+    width: 100% !important;
+    height: 100% !important;
+    display: block;
+}
+
+/* 3D Floating Holographic Tag Badges */
+.hero-floating-badge {
+    position: absolute;
+    background: rgba(15, 23, 42, 0.75);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: var(--radius-lg);
+    padding: 0.65rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    z-index: 10;
+    pointer-events: none;
+    transform-style: preserve-3d;
+}
+
+.hero-floating-badge.badge-top-right {
+    top: 5px;
+    right: 0px;
+    animation: float3d-slow 5s ease-in-out infinite alternate;
+}
+
+.hero-floating-badge.badge-bottom-left {
+    bottom: 10px;
+    left: 0px;
+    animation: float3d-slow 6s ease-in-out infinite alternate-reverse;
+}
+
+.hero-floating-badge .badge-icon-box {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.15rem;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.3), rgba(6, 182, 212, 0.3));
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.hero-floating-badge .badge-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.hero-floating-badge .badge-text strong {
+    font-size: 0.85rem;
+    color: #ffffff;
+    font-weight: 700;
+}
+
+.hero-floating-badge .badge-text span {
+    font-size: 0.725rem;
+    color: #94a3b8;
 }
 
 .hero-card {
-    background: #ffffff;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     color: var(--navy-900);
     border-radius: var(--radius-xl);
     padding: 2.25rem;
-    box-shadow: var(--shadow-xl);
+    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.4);
+    position: relative;
+    overflow: hidden;
+    transform-style: preserve-3d;
 }
 
 [data-theme="dark"] .hero-card {
-    background: #1e293b;
+    background: rgba(30, 41, 59, 0.88);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     color: #ffffff;
-    border: 1px solid #334155;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .hero-card h3 {
     font-size: 1.35rem;
     margin-bottom: 0.75rem;
+    transform: translateZ(20px);
 }
 
 .hero-card p {
     color: var(--slate-600);
     font-size: 0.95rem;
     margin-bottom: 1.5rem;
+    transform: translateZ(15px);
 }
 
 [data-theme="dark"] .hero-card p {
     color: #cbd5e1;
+}
+
+.hero-card form {
+    transform: translateZ(25px);
 }
 
 /* ==========================================================================
@@ -1862,8 +1990,218 @@ textarea.form-control {
 }
 
 /* ==========================================================================
-   Animations
+   3D Design Engine & Interactive Depth System
    ========================================================================== */
+.preserve-3d {
+    transform-style: preserve-3d;
+}
+
+.perspective-1000 {
+    perspective: 1000px;
+}
+
+.depth-z-10 { transform: translateZ(10px); }
+.depth-z-20 { transform: translateZ(20px); }
+.depth-z-30 { transform: translateZ(30px); }
+.depth-z-40 { transform: translateZ(40px); }
+
+/* 3D Tactile Buttons */
+.btn-3d {
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    box-shadow: 0 4px 0 var(--primary-dark), 0 8px 15px rgba(79, 70, 229, 0.35);
+}
+
+.btn-3d:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 0 var(--primary-dark), 0 12px 20px rgba(79, 70, 229, 0.4);
+}
+
+.btn-3d:active {
+    transform: translateY(3px);
+    box-shadow: 0 1px 0 var(--primary-dark), 0 3px 6px rgba(79, 70, 229, 0.3);
+}
+
+/* 3D Interactive Category Card Showcase */
+.category-card-3d {
+    background: var(--card-bg);
+    border: 1px solid var(--slate-200);
+    border-radius: var(--radius-lg);
+    padding: 1.85rem 1.5rem;
+    box-shadow: var(--shadow-card);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    position: relative;
+    transform-style: preserve-3d;
+    overflow: hidden;
+    cursor: pointer;
+    text-decoration: none;
+    transition: transform 0.25s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.25s ease, border-color 0.2s ease;
+}
+
+[data-theme="dark"] .category-card-3d {
+    background: #1e293b;
+    border-color: #334155;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.category-card-3d:hover {
+    border-color: var(--primary);
+    box-shadow: 0 20px 30px -10px rgba(79, 70, 229, 0.2), 0 10px 15px -5px rgba(0, 0, 0, 0.05);
+}
+
+.category-icon-3d {
+    width: 58px;
+    height: 58px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.85rem;
+    transform: translateZ(25px);
+    transition: transform 0.3s ease;
+    box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.12);
+}
+
+.category-card-3d:hover .category-icon-3d {
+    transform: translateZ(40px) scale(1.08) rotate(3deg);
+}
+
+.category-card-3d h4 {
+    font-size: 1.15rem;
+    margin: 0;
+    color: var(--navy-900);
+    transform: translateZ(15px);
+}
+
+.category-card-3d p {
+    font-size: 0.875rem;
+    color: var(--slate-500);
+    margin: 0;
+    line-height: 1.5;
+    transform: translateZ(10px);
+}
+
+.category-card-3d .category-badge-3d {
+    margin-top: auto;
+    font-size: 0.775rem;
+    font-weight: 700;
+    color: var(--primary);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    transform: translateZ(12px);
+}
+
+/* 3D Priority & Status Pill Badges */
+.badge-3d {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.35rem 0.85rem;
+    border-radius: var(--radius-full);
+    font-size: 0.8rem;
+    font-weight: 700;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 2px 5px rgba(0, 0, 0, 0.08);
+    transform-style: preserve-3d;
+    transition: transform 0.2s ease;
+}
+
+.badge-3d:hover {
+    transform: translateZ(10px) scale(1.05);
+}
+
+/* 3D Stepper Enhanced Depth */
+.stepper-circle {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1), inset 0 2px 0 rgba(255, 255, 255, 0.5);
+    transform-style: preserve-3d;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stepper-step.active .stepper-circle {
+    transform: scale(1.12) translateZ(15px);
+    box-shadow: 0 8px 20px rgba(79, 70, 229, 0.4), inset 0 2px 0 rgba(255, 255, 255, 0.6);
+}
+
+/* Auth Page 3D Floating Geometry Elements */
+.auth-page {
+    position: relative;
+    overflow-x: hidden;
+}
+
+.auth-3d-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.auth-3d-shape {
+    position: absolute;
+    border-radius: 24px;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.12), rgba(6, 182, 212, 0.08));
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(8px);
+    animation: float3d-slow 8s ease-in-out infinite alternate;
+}
+
+.shape-1 {
+    width: 220px;
+    height: 220px;
+    top: 10%;
+    left: 8%;
+    transform: rotate(25deg);
+}
+
+.shape-2 {
+    width: 280px;
+    height: 280px;
+    bottom: 12%;
+    right: 8%;
+    transform: rotate(-35deg);
+    animation-delay: -4s;
+}
+
+.shape-3 {
+    width: 140px;
+    height: 140px;
+    top: 45%;
+    right: 18%;
+    border-radius: 50%;
+    animation: float3d-slow 6s ease-in-out infinite alternate-reverse;
+}
+
+/* ==========================================================================
+   Animations & 3D Keyframes
+   ========================================================================== */
+@keyframes float3d-slow {
+    0% {
+        transform: translateY(0px) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-12px) rotate(2deg);
+    }
+    100% {
+        transform: translateY(-24px) rotate(-2deg);
+    }
+}
+
+@keyframes pulse3d {
+    0%, 100% {
+        transform: scale3d(1, 1, 1);
+    }
+    50% {
+        transform: scale3d(1.05, 1.05, 1.05);
+    }
+}
+
 @keyframes slideIn {
     from { transform: translateX(100%); opacity: 0; }
     to { transform: translateX(0); opacity: 1; }

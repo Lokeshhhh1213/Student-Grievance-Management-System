@@ -8,7 +8,14 @@
 </head>
 <body class="auth-page" style="background: radial-gradient(circle at 10% 20%, #1e293b 0%, #0f172a 90%);">
 
-    <div class="auth-card animate-scale-up" style="border-color: var(--navy-700);">
+    <!-- 3D Floating Geometry Backdrop -->
+    <div class="auth-3d-backdrop">
+        <div class="auth-3d-shape shape-1"></div>
+        <div class="auth-3d-shape shape-2"></div>
+        <div class="auth-3d-shape shape-3"></div>
+    </div>
+
+    <div class="auth-card animate-scale-up" data-tilt data-tilt-max="8" style="border-color: var(--navy-700);">
         <div class="auth-header">
             <a href="../index.html" class="d-inline-block text-decoration-none">
                 <div class="brand-icon" style="background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);">🏛️</div>

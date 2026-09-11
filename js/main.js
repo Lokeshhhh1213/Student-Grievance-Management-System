@@ -172,10 +172,101 @@ function showConfirmDialog(title, message, onConfirm, confirmText = 'Confirm', i
     };
 }
 
+// Universal 3D Parallax Tilt Physics Engine
+const Tilt3D = {
+    init() {
+        const selectors = [
+            '[data-tilt]',
+            '.tilt-3d',
+            '.stat-card',
+            '.feature-card',
+            '.hero-card',
+            '.category-card-3d',
+            '.auth-card',
+            '.metric-card'
+        ];
+
+        const cards = document.querySelectorAll(selectors.join(', '));
+        cards.forEach(card => this.applyTilt(card));
+    },
+
+    applyTilt(card) {
+        if (card._tiltInitialized) return;
+        card._tiltInitialized = true;
+
+        // Ensure proper transform-style
+        card.style.transformStyle = 'preserve-3d';
+        card.style.willChange = 'transform';
+        card.style.transition = 'transform 0.2s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.2s ease';
+
+        // Add specular glare overlay if not present
+        let glare = card.querySelector('.tilt-glare-sheen');
+        if (!glare) {
+            glare = document.createElement('div');
+            glare.className = 'tilt-glare-sheen';
+            glare.style.position = 'absolute';
+            glare.style.top = '0';
+            glare.style.left = '0';
+            glare.style.width = '100%';
+            glare.style.height = '100%';
+            glare.style.borderRadius = 'inherit';
+            glare.style.pointerEvents = 'none';
+            glare.style.opacity = '0';
+            glare.style.transition = 'opacity 0.25s ease';
+            glare.style.zIndex = '5';
+            card.style.position = card.style.position || 'relative';
+            card.style.overflow = 'hidden';
+            card.appendChild(glare);
+        }
+
+        const maxTilt = parseFloat(card.getAttribute('data-tilt-max') || 10);
+        const perspective = parseInt(card.getAttribute('data-tilt-perspective') || 1000);
+
+        let bounds;
+
+        const onMouseEnter = () => {
+            bounds = card.getBoundingClientRect();
+            card.style.transition = 'transform 0.1s ease-out, box-shadow 0.2s ease';
+            glare.style.opacity = '1';
+        };
+
+        const onMouseMove = (e) => {
+            if (!bounds) bounds = card.getBoundingClientRect();
+            const mouseX = e.clientX - bounds.left;
+            const mouseY = e.clientY - bounds.top;
+
+            const xPercent = mouseX / bounds.width;
+            const yPercent = mouseY / bounds.height;
+
+            const rotateX = ((0.5 - yPercent) * (maxTilt * 2)).toFixed(2);
+            const rotateY = ((xPercent - 0.5) * (maxTilt * 2)).toFixed(2);
+
+            card.style.transform = `perspective(${perspective}px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.025, 1.025, 1.025)`;
+
+            // Position specular glare
+            const glareAngle = Math.atan2(mouseY - bounds.height / 2, mouseX - bounds.width / 2) * (180 / Math.PI) - 90;
+            glare.style.background = `radial-gradient(circle at ${xPercent * 100}% ${yPercent * 100}%, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0) 70%)`;
+        };
+
+        const onMouseLeave = () => {
+            card.style.transition = 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.5s ease';
+            card.style.transform = `perspective(${perspective}px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+            glare.style.opacity = '0';
+        };
+
+        card.addEventListener('mouseenter', onMouseEnter);
+        card.addEventListener('mousemove', onMouseMove);
+        card.addEventListener('mouseleave', onMouseLeave);
+    }
+};
+
 // Global Page Handlers
 document.addEventListener('DOMContentLoaded', () => {
     // Initialize Theme System
     ThemeManager.init();
+
+    // Initialize 3D Card Tilt Engine
+    Tilt3D.init();
 
     // Mobile Navigation Hamburger
     const navToggle = document.querySelector('.navbar-toggle');
@@ -228,3 +319,4 @@ document.addEventListener('DOMContentLoaded', () => {
         ThemeManager.renderToggleButtons();
     }
 });
+
