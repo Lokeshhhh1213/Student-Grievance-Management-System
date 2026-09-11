@@ -1,6 +1,7 @@
 /**
  * Student Complaint & Grievance Management System
  * Next-Gen 3D Ultra-Modern Aesthetic Design System with Adaptive Dynamic Dark/Light Engine
+ * + True 3D Spatial Parallax Stacking & Holographic Prismatic Edge Engine
  */
 
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Space+Grotesk:wght@400;500;600;700&display=swap');
@@ -318,6 +319,20 @@ code {
 }
 
 /* ==========================================================================
+   Ambient 3D Particle Constellation Background Canvas
+   ========================================================================== */
+#ambient-3d-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.85;
+}
+
+/* ==========================================================================
    Live System Status Ticker Banner
    ========================================================================== */
 .system-ticker-bar {
@@ -383,12 +398,70 @@ code {
     box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.25);
 }
 
-/* 3D Perspective & Card Physics Engine */
+/* 3D Perspective & Spatial Layer Stacking Engine */
 .card, .stat-card, .feature-card, .category-card, .complaint-card, .hero-card, .auth-card, .priority-metric-card {
     transform-style: preserve-3d;
     backface-visibility: hidden;
     will-change: transform, box-shadow;
     position: relative;
+}
+
+/* Multi-layer spatial Z-depth pop out */
+.card > *, .stat-card > *, .feature-card > *, .category-card > *, .complaint-card > *, .hero-card > * {
+    transform-style: preserve-3d;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card:hover .stat-icon, .stat-card:hover .stat-icon, .category-card:hover .category-icon {
+    transform: translateZ(35px) scale(1.08) rotate(3deg);
+}
+
+.card:hover .stat-value, .stat-card:hover .stat-value, .feature-card:hover .feature-number {
+    transform: translateZ(28px);
+}
+
+.card:hover h1, .card:hover h2, .card:hover h3, .card:hover h4,
+.hero-card:hover h3, .complaint-card:hover .complaint-title {
+    transform: translateZ(22px);
+}
+
+.card:hover .badge, .complaint-card:hover .badge, .hero-card:hover .floating-pill {
+    transform: translateZ(32px);
+}
+
+.card:hover .btn, .hero-card:hover .btn {
+    transform: translateZ(30px);
+}
+
+/* Dynamic Holographic Prismatic Edge Glow */
+.hero-card, .auth-card, .stat-card {
+    position: relative;
+}
+
+.hero-card::before, .auth-card::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    padding: 2px;
+    background: conic-gradient(from var(--holo-angle, 0deg) at 50% 50%, #4f46e5, #06b6d4, #10b981, #f59e0b, #ec4899, #8b5cf6, #4f46e5);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0.35;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.hero-card:hover::before, .auth-card:hover::before {
+    opacity: 0.85;
+    animation: holoRotate 4s linear infinite;
+}
+
+@keyframes holoRotate {
+    0% { filter: hue-rotate(0deg); }
+    100% { filter: hue-rotate(360deg); }
 }
 
 /* Dynamic Interactive Sheen Overlay */
@@ -2474,7 +2547,7 @@ textarea.form-control {
 /* Print Styles */
 @media print {
     body { background: white; color: black; }
-    .navbar, .footer, .dashboard-sidebar, .dashboard-topbar, .btn, .table-actions, .toast-container, .modal-backdrop, .system-ticker-bar {
+    .navbar, .footer, .dashboard-sidebar, .dashboard-topbar, .btn, .table-actions, .toast-container, .modal-backdrop, .system-ticker-bar, #ambient-3d-canvas {
         display: none !important;
     }
     .dashboard-main { margin-left: 0 !important; }

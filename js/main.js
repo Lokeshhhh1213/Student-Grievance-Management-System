@@ -226,6 +226,139 @@ const Interactive3DTilt = {
     }
 };
 
+// Interactive 3D Ambient Constellation Mesh Engine
+const Interactive3DConstellation = {
+    init() {
+        const hero = document.querySelector('.hero');
+        if (!hero || document.getElementById('ambient-3d-canvas')) return;
+
+        const canvas = document.createElement('canvas');
+        canvas.id = 'ambient-3d-canvas';
+        hero.style.position = 'relative';
+        hero.prepend(canvas);
+
+        const ctx = canvas.getContext('2d');
+        let width = (canvas.width = hero.offsetWidth);
+        let height = (canvas.height = hero.offsetHeight);
+
+        const resize = () => {
+            width = canvas.width = hero.offsetWidth;
+            height = canvas.height = hero.offsetHeight;
+        };
+        window.addEventListener('resize', resize, { passive: true });
+
+        // 3D Particles
+        const particleCount = Math.min(45, Math.floor(width / 25));
+        const particles = [];
+        const fov = 350;
+
+        for (let i = 0; i < particleCount; i++) {
+            particles.push({
+                x: (Math.random() - 0.5) * width * 1.2,
+                y: (Math.random() - 0.5) * height * 1.2,
+                z: Math.random() * 400 + 50,
+                vx: (Math.random() - 0.5) * 0.4,
+                vy: (Math.random() - 0.5) * 0.4,
+                vz: (Math.random() - 0.5) * 0.5,
+                radius: Math.random() * 2 + 1.5,
+                hue: Math.random() > 0.5 ? 235 : 190 // Indigo or Cyan
+            });
+        }
+
+        let mouseX = 0;
+        let mouseY = 0;
+        let targetRotX = 0;
+        let targetRotY = 0;
+        let rotX = 0;
+        let rotY = 0;
+
+        hero.addEventListener('mousemove', (e) => {
+            const rect = hero.getBoundingClientRect();
+            mouseX = (e.clientX - rect.left - width / 2) * 0.0005;
+            mouseY = (e.clientY - rect.top - height / 2) * 0.0005;
+            targetRotY = mouseX;
+            targetRotX = -mouseY;
+        }, { passive: true });
+
+        const animate = () => {
+            ctx.clearRect(0, 0, width, height);
+
+            rotX += (targetRotX - rotX) * 0.05;
+            rotY += (targetRotY - rotY) * 0.05;
+
+            const cosY = Math.cos(rotY);
+            const sinY = Math.sin(rotY);
+            const cosX = Math.cos(rotX);
+            const sinX = Math.sin(rotX);
+
+            const projected = [];
+
+            // Update & project 3D points
+            for (let i = 0; i < particles.length; i++) {
+                const p = particles[i];
+                p.x += p.vx;
+                p.y += p.vy;
+                p.z += p.vz;
+
+                if (p.z < 20) p.z = 450;
+                if (p.z > 450) p.z = 20;
+
+                // 3D rotation
+                const x1 = p.x * cosY - p.z * sinY;
+                const z1 = p.z * cosY + p.x * sinY;
+                const y1 = p.y * cosX - z1 * sinX;
+                const z2 = z1 * cosX + p.y * sinX;
+
+                const scale = fov / (fov + z2);
+                const px = x1 * scale + width / 2;
+                const py = y1 * scale + height / 2;
+                const alpha = Math.max(0.1, Math.min(0.8, (scale - 0.3) * 1.5));
+
+                projected.push({ x: px, y: py, z: z2, scale, alpha, hue: p.hue, radius: p.radius });
+            }
+
+            // Draw connecting 3D energy lines
+            for (let i = 0; i < projected.length; i++) {
+                for (let j = i + 1; j < projected.length; j++) {
+                    const p1 = projected[i];
+                    const p2 = projected[j];
+                    const dx = p1.x - p2.x;
+                    const dy = p1.y - p2.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+
+                    if (dist < 110) {
+                        const lineAlpha = (1 - dist / 110) * 0.25 * Math.min(p1.alpha, p2.alpha);
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(99, 102, 241, ${lineAlpha})`;
+                        ctx.lineWidth = 1;
+                        ctx.moveTo(p1.x, p1.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            // Draw glowing 3D particle nodes
+            for (let i = 0; i < projected.length; i++) {
+                const p = projected[i];
+                if (p.x < 0 || p.x > width || p.y < 0 || p.y > height) continue;
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, Math.max(1, p.radius * p.scale), 0, Math.PI * 2);
+                ctx.fillStyle = p.hue === 235 ? `rgba(129, 140, 248, ${p.alpha})` : `rgba(34, 211, 238, ${p.alpha})`;
+                ctx.shadowColor = 'rgba(99, 102, 241, 0.6)';
+                ctx.shadowBlur = 8;
+                ctx.fill();
+                ctx.shadowBlur = 0;
+            }
+
+            requestAnimationFrame(animate);
+        };
+
+        animate();
+    }
+};
+
 // Global Page Handlers
 document.addEventListener('DOMContentLoaded', () => {
     // Initialize Theme System
@@ -233,6 +366,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize 3D Tilt Engine
     Interactive3DTilt.init();
+
+    // Initialize 3D Constellation Mesh
+    Interactive3DConstellation.init();
 
     // Mobile Navigation Hamburger
     const navToggle = document.querySelector('.navbar-toggle');
