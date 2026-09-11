@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Complaints | Admin Portal</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+    <div class="dashboard-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="dashboard-sidebar" aria-label="Administrator Navigation">
+            <div class="sidebar-header">
+                <div class="brand-icon" style="background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%); width:36px; height:36px; font-size:1.1rem;">🏛️</div>
+                <div>
+                    <h2>Admin Portal</h2>
+                    <span>Administration Desk</span>
+                </div>
+            </div>
+
+            <ul class="sidebar-menu">
+                <li><a href="dashboard.html" class="sidebar-link"><span class="sidebar-icon">📊</span> Dashboard</a></li>
+                <li><a href="complaints.html" class="sidebar-link active"><span class="sidebar-icon">📋</span> All Complaints</a></li>
+                <li><a href="complaints.html?status=Submitted" class="sidebar-link"><span class="sidebar-icon">📥</span> Pending Grievances</a></li>
+                <li><a href="complaints.html?status=In Progress" class="sidebar-link"><span class="sidebar-icon">⚙️</span> In Progress</a></li>
+                <li><a href="complaints.html?status=Resolved" class="sidebar-link"><span class="sidebar-icon">✅</span> Resolved Tickets</a></li>
+                <li><a href="students.html" class="sidebar-link"><span class="sidebar-icon">👥</span> Student Directory</a></li>
+                <li><a href="reports.html" class="sidebar-link"><span class="sidebar-icon">📈</span> Analytics & Reports</a></li>
+            </ul>
+
+            <div class="sidebar-footer">
+                <a href="javascript:void(0)" onclick="Auth.logoutAdmin('login.html')" class="btn btn-danger-soft w-100 btn-sm">🚪 Logout Admin</a>
+            </div>
+        </aside>
+
+        <div class="sidebar-overlay"></div>
+
+        <!-- Main Content Area -->
+        <div class="dashboard-main">
+            <!-- Topbar -->
+            <header class="dashboard-topbar">
+                <div class="d-flex align-center gap-2">
+                    <button type="button" class="sidebar-toggle" aria-label="Toggle menu">☰</button>
+                    <div>
+                        <h2 style="font-size: 1.2rem; margin:0;">Manage Student Complaints</h2>
+                        <span class="text-muted small" id="admin-complaints-count">Loading grievances...</span>
+                    </div>
+                </div>
+
+                <div class="d-flex align-center gap-2">
+                    <a href="reports.html" class="btn btn-outline-secondary btn-sm">Export / Print Report</a>
+                </div>
+            </header>
+
+            <main class="dashboard-content">
+                <!-- Search & Filters Toolbar -->
+                <div class="card mb-4">
+                    <div class="card-body py-3">
+                        <div class="d-flex gap-2 flex-wrap align-center">
+                            <!-- Keyword Search -->
+                            <div style="flex: 1.5; min-width: 220px;">
+                                <input type="text" id="admin-filter-search" class="form-control" placeholder="Search by Complaint ID, Student ID, Name, Title...">
+                            </div>
+
+                            <!-- Category Filter -->
+                            <div style="flex: 1; min-width: 140px;">
+                                <select id="admin-filter-category" class="form-control">
+                                    <option value="all">All Categories</option>
+                                    <!-- Populated dynamically -->
+                                </select>
+                            </div>
+
+                            <!-- Status Filter -->
+                            <div style="flex: 1; min-width: 140px;">
+                                <select id="admin-filter-status" class="form-control">
+                                    <option value="all">All Statuses</option>
+                                    <option value="Submitted">Submitted</option>
+                                    <option value="Under Review">Under Review</option>
+                                    <option value="In Progress">In Progress</option>
+                                    <option value="Resolved">Resolved</option>
+                                    <option value="Rejected">Rejected</option>
+                                    <option value="Closed">Closed</option>
+                                </select>
+                            </div>
+
+                            <!-- Priority Filter -->
+                            <div style="flex: 0.8; min-width: 130px;">
+                                <select id="admin-filter-priority" class="form-control">
+                                    <option value="all">All Priorities</option>
+                                    <option value="Low">Low</option>
+                                    <option value="Medium">Medium</option>
+                                    <option value="High">High</option>
+                                    <option value="Urgent">Urgent</option>
+                                </select>
+                            </div>
+
+                            <!-- Department Filter -->
+                            <div style="flex: 1.2; min-width: 160px;">
+                                <select id="admin-filter-dept" class="form-control">
+                                    <option value="all">All Departments</option>
+                                    <!-- Populated dynamically -->
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Complaints Table Card -->
+                <div class="card">
+                    <div class="card-body" style="padding: 0;">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Student</th>
+                                        <th>Complaint Title</th>
+                                        <th>Category</th>
+                                        <th>Priority</th>
+                                        <th>Status</th>
+                                        <th>Department</th>
+                                        <th>Date</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="admin-complaints-tbody">
+                                    <!-- Populated dynamically by admin.js -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/storage.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/complaints.js"></script>
+    <script src="../js/admin.js"></script>
+    <script src="../js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check for URL query parameter presets
+            const urlParams = new URLSearchParams(window.location.search);
+            const statusParam = urlParams.get('status');
+            const searchParam = urlParams.get('search');
+            const catParam = urlParams.get('category');
+
+            if (statusParam) {
+                const statusSelect = document.getElementById('admin-filter-status');
+                if (statusSelect) statusSelect.value = statusParam;
+            }
+
+            if (searchParam) {
+                const searchInput = document.getElementById('admin-filter-search');
+                if (searchInput) searchInput.value = searchParam;
+            }
+
+            if (catParam) {
+                const catSelect = document.getElementById('admin-filter-category');
+                if (catSelect) catSelect.value = catParam;
+            }
+
+            AdminController.initComplaintsTable();
+        });
+    </script>
+</body>
+</html>

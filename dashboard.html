@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard | Grievance Portal</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <div class="dashboard-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="dashboard-sidebar" aria-label="Student Navigation">
+            <div class="sidebar-header">
+                <div class="brand-icon" style="width:36px;height:36px;font-size:1.1rem;">🎓</div>
+                <div>
+                    <h2>Student Portal</h2>
+                    <span>Grievance Center</span>
+                </div>
+            </div>
+
+            <ul class="sidebar-menu">
+                <li><a href="dashboard.html" class="sidebar-link active"><span class="sidebar-icon">📊</span> Dashboard</a></li>
+                <li><a href="submit-complaint.html" class="sidebar-link"><span class="sidebar-icon">✍️</span> Submit Complaint</a></li>
+                <li><a href="track-complaint.html" class="sidebar-link"><span class="sidebar-icon">🔍</span> Track Complaint</a></li>
+                <li><a href="my-complaints.html" class="sidebar-link"><span class="sidebar-icon">📑</span> My Complaints</a></li>
+                <li><a href="profile.html" class="sidebar-link"><span class="sidebar-icon">👤</span> My Profile</a></li>
+            </ul>
+
+            <div class="sidebar-footer">
+                <a href="javascript:void(0)" onclick="Auth.logoutStudent('login.html')" class="btn btn-danger-soft w-100 btn-sm">🚪 Logout</a>
+            </div>
+        </aside>
+
+        <div class="sidebar-overlay"></div>
+
+        <!-- Main Content Area -->
+        <div class="dashboard-main">
+            <!-- Topbar -->
+            <header class="dashboard-topbar">
+                <div class="d-flex align-center gap-2">
+                    <button type="button" class="sidebar-toggle" aria-label="Toggle menu">☰</button>
+                    <div>
+                        <h2 style="font-size: 1.2rem; margin:0;">Dashboard Overview</h2>
+                        <span class="text-muted small" id="student-dept-year">Loading profile...</span>
+                    </div>
+                </div>
+
+                <div class="d-flex align-center gap-3">
+                    <a href="submit-complaint.html" class="btn btn-primary btn-sm">+ New Complaint</a>
+                    <a href="profile.html" class="btn btn-outline-secondary btn-sm">My Profile</a>
+                </div>
+            </header>
+
+            <main class="dashboard-content">
+                <!-- Welcome Banner -->
+                <div class="card mb-4" style="background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%); color: white; border: none;">
+                    <div class="card-body py-4">
+                        <h1 style="color: white; font-size: 1.75rem; margin-bottom: 0.35rem;">Welcome, <span id="student-welcome-name">Student</span>!</h1>
+                        <p style="color: #bfdbfe; font-size: 0.95rem; margin-bottom: 0;">Need to resolve an issue? Lodge your grievance or check status anytime.</p>
+                    </div>
+                </div>
+
+                <!-- Statistics Grid -->
+                <div class="stats-grid mb-4">
+                    <div class="stat-card">
+                        <div class="stat-icon blue">📋</div>
+                        <div>
+                            <div class="stat-value" id="stat-student-total">0</div>
+                            <div class="stat-label">Total Complaints</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon amber">⏳</div>
+                        <div>
+                            <div class="stat-value" id="stat-student-pending">0</div>
+                            <div class="stat-label">Pending Review</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon purple">⚙️</div>
+                        <div>
+                            <div class="stat-value" id="stat-student-progress">0</div>
+                            <div class="stat-label">In Progress</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon green">✅</div>
+                        <div>
+                            <div class="stat-value" id="stat-student-resolved">0</div>
+                            <div class="stat-label">Resolved</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h3 class="card-title">Quick Actions</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="grid-4">
+                            <a href="submit-complaint.html" class="category-card">
+                                <div class="category-icon">✍️</div>
+                                <div class="category-info">
+                                    <h4>Submit Complaint</h4>
+                                    <p>File a new grievance</p>
+                                </div>
+                            </a>
+
+                            <a href="my-complaints.html" class="category-card">
+                                <div class="category-icon">📑</div>
+                                <div class="category-info">
+                                    <h4>My Complaints</h4>
+                                    <p>View all submitted tickets</p>
+                                </div>
+                            </a>
+
+                            <a href="track-complaint.html" class="category-card">
+                                <div class="category-icon">🔍</div>
+                                <div class="category-info">
+                                    <h4>Track Status</h4>
+                                    <p>Search by Complaint ID</p>
+                                </div>
+                            </a>
+
+                            <a href="profile.html" class="category-card">
+                                <div class="category-icon">👤</div>
+                                <div class="category-info">
+                                    <h4>My Profile</h4>
+                                    <p>Manage account info</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Complaints Section -->
+                <div class="card">
+                    <div class="card-header d-flex justify-between align-center flex-wrap gap-2">
+                        <h3 class="card-title">Recent Grievances</h3>
+                        <a href="my-complaints.html" class="btn btn-sm btn-outline-primary">View All Complaints →</a>
+                    </div>
+                    <div class="card-body">
+                        <div id="recent-complaints-list" class="complaints-grid">
+                            <!-- Populated dynamically by student.js -->
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/storage.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/complaints.js"></script>
+    <script src="js/student.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            StudentController.initDashboard();
+        });
+    </script>
+</body>
+</html>

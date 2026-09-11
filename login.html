@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Login | Student Grievance Portal</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="auth-page">
+
+    <div class="auth-card animate-scale-up">
+        <div class="auth-header">
+            <a href="index.html" class="d-inline-block text-decoration-none">
+                <div class="brand-icon">🎓</div>
+            </a>
+            <h2 class="auth-title">Student Login</h2>
+            <p class="auth-subtitle">Access your grievance dashboard & track complaint status</p>
+        </div>
+
+        <!-- Demo Account Helper Box -->
+        <div class="demo-credentials-box">
+            <div class="d-flex justify-between align-center mb-1">
+                <strong>Demo Student Credentials:</strong>
+                <button type="button" class="btn btn-xs btn-outline-primary" id="fill-demo-btn">Auto-Fill</button>
+            </div>
+            <p><strong>Student ID / Email:</strong> <code>STU1001</code> / <code>student@college.com</code></p>
+            <p><strong>Password:</strong> <code>student123</code></p>
+        </div>
+
+        <form id="student-login-form">
+            <div class="form-group">
+                <label for="login-identifier" class="form-label">Student ID or Registered Email *</label>
+                <input type="text" id="login-identifier" class="form-control" placeholder="e.g. STU1001 or student@college.com" required autofocus>
+            </div>
+
+            <div class="form-group">
+                <div class="d-flex justify-between align-center mb-1">
+                    <label for="login-password" class="form-label mb-0">Password *</label>
+                </div>
+                <input type="password" id="login-password" class="form-control" placeholder="Enter your password" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 btn-lg mt-2">Sign In to Portal</button>
+        </form>
+
+        <div class="text-center mt-3 pt-3" style="border-top: 1px solid var(--slate-200);">
+            <p class="text-muted small">New student? <a href="register.html" class="font-weight-600">Create an account</a></p>
+            <p class="text-muted small mt-1">Are you an administrator? <a href="admin/login.html" class="font-weight-600">Admin Login</a></p>
+            <p class="text-muted small mt-2"><a href="index.html">← Return to Home Page</a></p>
+        </div>
+    </div>
+
+    <script src="js/storage.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/complaints.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Redirect if already logged in
+            Auth.redirectIfStudentLoggedIn('dashboard.html');
+
+            const form = document.getElementById('student-login-form');
+            const idInput = document.getElementById('login-identifier');
+            const passInput = document.getElementById('login-password');
+            const fillBtn = document.getElementById('fill-demo-btn');
+
+            if (fillBtn) {
+                fillBtn.addEventListener('click', () => {
+                    idInput.value = 'STU1001';
+                    passInput.value = 'student123';
+                    showToast('Demo student credentials populated!', 'info', 2000);
+                });
+            }
+
+            if (form) {
+                form.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const identifier = idInput.value;
+                    const password = passInput.value;
+
+                    const res = Auth.loginStudent(identifier, password);
+                    if (res.success) {
+                        showToast(`Welcome back, ${res.student.name}!`, 'success');
+                        setTimeout(() => {
+                            window.location.href = 'dashboard.html';
+                        }, 800);
+                    } else {
+                        showToast(res.message, 'error');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

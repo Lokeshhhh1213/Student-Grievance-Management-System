@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Complaint Details | Admin Portal</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+    <div class="dashboard-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="dashboard-sidebar" aria-label="Administrator Navigation">
+            <div class="sidebar-header">
+                <div class="brand-icon" style="background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%); width:36px; height:36px; font-size:1.1rem;">🏛️</div>
+                <div>
+                    <h2>Admin Portal</h2>
+                    <span>Administration Desk</span>
+                </div>
+            </div>
+
+            <ul class="sidebar-menu">
+                <li><a href="dashboard.html" class="sidebar-link"><span class="sidebar-icon">📊</span> Dashboard</a></li>
+                <li><a href="complaints.html" class="sidebar-link active"><span class="sidebar-icon">📋</span> All Complaints</a></li>
+                <li><a href="complaints.html?status=Submitted" class="sidebar-link"><span class="sidebar-icon">📥</span> Pending Grievances</a></li>
+                <li><a href="complaints.html?status=In Progress" class="sidebar-link"><span class="sidebar-icon">⚙️</span> In Progress</a></li>
+                <li><a href="complaints.html?status=Resolved" class="sidebar-link"><span class="sidebar-icon">✅</span> Resolved Tickets</a></li>
+                <li><a href="students.html" class="sidebar-link"><span class="sidebar-icon">👥</span> Student Directory</a></li>
+                <li><a href="reports.html" class="sidebar-link"><span class="sidebar-icon">📈</span> Analytics & Reports</a></li>
+            </ul>
+
+            <div class="sidebar-footer">
+                <a href="javascript:void(0)" onclick="Auth.logoutAdmin('login.html')" class="btn btn-danger-soft w-100 btn-sm">🚪 Logout Admin</a>
+            </div>
+        </aside>
+
+        <div class="sidebar-overlay"></div>
+
+        <!-- Main Content Area -->
+        <div class="dashboard-main">
+            <!-- Topbar -->
+            <header class="dashboard-topbar">
+                <div class="d-flex align-center gap-2">
+                    <button type="button" class="sidebar-toggle" aria-label="Toggle menu">☰</button>
+                    <div>
+                        <h2 style="font-size: 1.2rem; margin:0;">Grievance Ticket Management</h2>
+                        <span class="text-muted small">Update status, assign responsible department, and post response</span>
+                    </div>
+                </div>
+
+                <div class="d-flex align-center gap-2">
+                    <a href="complaints.html" class="btn btn-outline-secondary btn-sm">← Back to Complaints</a>
+                </div>
+            </header>
+
+            <main class="dashboard-content">
+                <div id="admin-complaint-detail-container">
+                    <!-- Populated dynamically by admin.js -->
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/storage.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/complaints.js"></script>
+    <script src="../js/admin.js"></script>
+    <script src="../js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            AdminController.initComplaintDetails();
+        });
+    </script>
+</body>
+</html>

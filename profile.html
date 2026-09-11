@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Profile | Grievance Portal</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <div class="dashboard-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="dashboard-sidebar" aria-label="Student Navigation">
+            <div class="sidebar-header">
+                <div class="brand-icon" style="width:36px;height:36px;font-size:1.1rem;">🎓</div>
+                <div>
+                    <h2>Student Portal</h2>
+                    <span>Grievance Center</span>
+                </div>
+            </div>
+
+            <ul class="sidebar-menu">
+                <li><a href="dashboard.html" class="sidebar-link"><span class="sidebar-icon">📊</span> Dashboard</a></li>
+                <li><a href="submit-complaint.html" class="sidebar-link"><span class="sidebar-icon">✍️</span> Submit Complaint</a></li>
+                <li><a href="track-complaint.html" class="sidebar-link"><span class="sidebar-icon">🔍</span> Track Complaint</a></li>
+                <li><a href="my-complaints.html" class="sidebar-link"><span class="sidebar-icon">📑</span> My Complaints</a></li>
+                <li><a href="profile.html" class="sidebar-link active"><span class="sidebar-icon">👤</span> My Profile</a></li>
+            </ul>
+
+            <div class="sidebar-footer">
+                <a href="javascript:void(0)" onclick="Auth.logoutStudent('login.html')" class="btn btn-danger-soft w-100 btn-sm">🚪 Logout</a>
+            </div>
+        </aside>
+
+        <div class="sidebar-overlay"></div>
+
+        <!-- Main Content Area -->
+        <div class="dashboard-main">
+            <!-- Topbar -->
+            <header class="dashboard-topbar">
+                <div class="d-flex align-center gap-2">
+                    <button type="button" class="sidebar-toggle" aria-label="Toggle menu">☰</button>
+                    <div>
+                        <h2 style="font-size: 1.2rem; margin:0;">Student Profile</h2>
+                        <span class="text-muted small">Manage your personal and academic credentials</span>
+                    </div>
+                </div>
+
+                <div class="d-flex align-center gap-2">
+                    <button type="button" onclick="Auth.logoutStudent('login.html')" class="btn btn-danger-soft btn-sm">Sign Out</button>
+                </div>
+            </header>
+
+            <main class="dashboard-content">
+                <div style="max-width: 900px; margin: 0 auto;">
+                    <!-- Overview Banner -->
+                    <div class="card mb-4">
+                        <div class="card-body d-flex align-center gap-3 flex-wrap">
+                            <div class="brand-icon" style="width: 72px; height: 72px; font-size: 2.2rem; border-radius: 50%;">
+                                👤
+                            </div>
+                            <div style="flex: 1; min-width: 200px;">
+                                <h2 style="font-size: 1.5rem; margin-bottom: 0.25rem;" id="profile-name-display">Student Name</h2>
+                                <p class="text-muted mb-0" id="profile-dept-display">Department</p>
+                                <div class="d-flex gap-2 mt-2">
+                                    <span class="badge badge-primary" id="profile-id-display">STU1001</span>
+                                    <span class="badge badge-light" id="profile-year-display">Final Year</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Statistics Summary -->
+                    <div class="stats-grid mb-4">
+                        <div class="stat-card">
+                            <div class="stat-icon blue">📋</div>
+                            <div>
+                                <div class="stat-value" id="profile-stat-total">0</div>
+                                <div class="stat-label">Complaints Filed</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon green">✅</div>
+                            <div>
+                                <div class="stat-value" id="profile-stat-resolved">0</div>
+                                <div class="stat-label">Resolved Issues</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon amber">⏳</div>
+                            <div>
+                                <div class="stat-value" id="profile-stat-pending">0</div>
+                                <div class="stat-label">Active / Pending</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Edit Profile Card -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Edit Personal & Department Info</h3>
+                        </div>
+
+                        <div class="card-body">
+                            <form id="profile-edit-form">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="profile-edit-name" class="form-label">Full Name *</label>
+                                        <input type="text" id="profile-edit-name" class="form-control" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="profile-edit-email" class="form-label">Email Address *</label>
+                                        <input type="email" id="profile-edit-email" class="form-control" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="profile-edit-phone" class="form-label">Phone Number</label>
+                                        <input type="tel" id="profile-edit-phone" class="form-control" placeholder="+91 98765 00000">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="profile-edit-dept" class="form-label">Department *</label>
+                                        <select id="profile-edit-dept" class="form-control" required>
+                                            <option value="Information Technology">Information Technology</option>
+                                            <option value="Computer Science & Engineering">Computer Science & Engineering</option>
+                                            <option value="Electronics & Communication">Electronics & Communication</option>
+                                            <option value="Electrical Engineering">Electrical Engineering</option>
+                                            <option value="Mechanical Engineering">Mechanical Engineering</option>
+                                            <option value="Civil Engineering">Civil Engineering</option>
+                                            <option value="Biotechnology">Biotechnology</option>
+                                            <option value="Management Studies">Management Studies</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="profile-edit-year" class="form-label">Academic Year *</label>
+                                    <select id="profile-edit-year" class="form-control" required>
+                                        <option value="1st Year">1st Year</option>
+                                        <option value="2nd Year">2nd Year</option>
+                                        <option value="3rd Year">3rd Year</option>
+                                        <option value="4th Year">4th Year</option>
+                                        <option value="Final Year">Final Year</option>
+                                    </select>
+                                </div>
+
+                                <div class="d-flex justify-between align-center mt-4 pt-3" style="border-top: 1px solid var(--slate-200);">
+                                    <button type="button" onclick="Auth.logoutStudent('login.html')" class="btn btn-danger-soft">Log Out</button>
+                                    <button type="submit" class="btn btn-primary">Save Profile Changes</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/storage.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/complaints.js"></script>
+    <script src="js/student.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            StudentController.initProfile();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Complaint | Grievance Portal</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <div class="dashboard-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="dashboard-sidebar" aria-label="Student Navigation">
+            <div class="sidebar-header">
+                <div class="brand-icon" style="width:36px;height:36px;font-size:1.1rem;">🎓</div>
+                <div>
+                    <h2>Student Portal</h2>
+                    <span>Grievance Center</span>
+                </div>
+            </div>
+
+            <ul class="sidebar-menu">
+                <li><a href="dashboard.html" class="sidebar-link"><span class="sidebar-icon">📊</span> Dashboard</a></li>
+                <li><a href="submit-complaint.html" class="sidebar-link active"><span class="sidebar-icon">✍️</span> Submit Complaint</a></li>
+                <li><a href="track-complaint.html" class="sidebar-link"><span class="sidebar-icon">🔍</span> Track Complaint</a></li>
+                <li><a href="my-complaints.html" class="sidebar-link"><span class="sidebar-icon">📑</span> My Complaints</a></li>
+                <li><a href="profile.html" class="sidebar-link"><span class="sidebar-icon">👤</span> My Profile</a></li>
+            </ul>
+
+            <div class="sidebar-footer">
+                <a href="javascript:void(0)" onclick="Auth.logoutStudent('login.html')" class="btn btn-danger-soft w-100 btn-sm">🚪 Logout</a>
+            </div>
+        </aside>
+
+        <div class="sidebar-overlay"></div>
+
+        <!-- Main Content Area -->
+        <div class="dashboard-main">
+            <!-- Topbar -->
+            <header class="dashboard-topbar">
+                <div class="d-flex align-center gap-2">
+                    <button type="button" class="sidebar-toggle" aria-label="Toggle menu">☰</button>
+                    <div>
+                        <h2 style="font-size: 1.2rem; margin:0;">Submit a Grievance</h2>
+                        <span class="text-muted small">Fill out the details below to lodge your formal complaint</span>
+                    </div>
+                </div>
+
+                <div class="d-flex align-center gap-2">
+                    <a href="my-complaints.html" class="btn btn-outline-secondary btn-sm">My Complaints</a>
+                </div>
+            </header>
+
+            <main class="dashboard-content">
+                <div class="card" style="max-width: 860px; margin: 0 auto;">
+                    <div class="card-header">
+                        <h3 class="card-title">Grievance Submission Form</h3>
+                        <p class="text-muted small mb-0">Please provide accurate information to expedite resolution by college administrators.</p>
+                    </div>
+
+                    <div class="card-body">
+                        <form id="submit-complaint-form">
+                            <!-- Title -->
+                            <div class="form-group">
+                                <label for="complaint-title" class="form-label">Complaint Title *</label>
+                                <input type="text" id="complaint-title" class="form-control" placeholder="Brief summary of the issue (e.g. Water Supply Issue in Kaveri Hostel)" minlength="5" required autofocus>
+                            </div>
+
+                            <!-- Category & Priority Row -->
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="complaint-category" class="form-label">Complaint Category *</label>
+                                    <select id="complaint-category" class="form-control" required>
+                                        <option value="">-- Select Category --</option>
+                                        <option value="Academic">Academic</option>
+                                        <option value="Faculty">Faculty</option>
+                                        <option value="Hostel">Hostel</option>
+                                        <option value="Canteen">Canteen</option>
+                                        <option value="Transportation">Transportation</option>
+                                        <option value="Infrastructure">Infrastructure</option>
+                                        <option value="Library">Library</option>
+                                        <option value="Examination">Examination</option>
+                                        <option value="Fees">Fees</option>
+                                        <option value="Harassment">Harassment</option>
+                                        <option value="Technical Issue">Technical Issue</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="complaint-priority" class="form-label">Priority Level *</label>
+                                    <select id="complaint-priority" class="form-control" required>
+                                        <option value="Low">Low - General query or non-disruptive</option>
+                                        <option value="Medium" selected>Medium - Noticeable inconvenience</option>
+                                        <option value="High">High - Significant academic/campus disruption</option>
+                                        <option value="Urgent">Urgent - Immediate safety or exam critical</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Location & Incident Date Row -->
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="complaint-location" class="form-label">Location of Incident *</label>
+                                    <input type="text" id="complaint-location" class="form-control" placeholder="e.g. Block B Room 304, Main Canteen, Bus #12" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="incident-date" class="form-label">Date of Incident *</label>
+                                    <input type="date" id="incident-date" class="form-control" required>
+                                </div>
+                            </div>
+
+                            <!-- Contact Info -->
+                            <div class="form-group">
+                                <label for="complaint-contact" class="form-label">Contact Phone (Optional for quick verification)</label>
+                                <input type="tel" id="complaint-contact" class="form-control" placeholder="e.g. +91 98765 43210">
+                            </div>
+
+                            <!-- Detailed Description -->
+                            <div class="form-group">
+                                <div class="d-flex justify-between align-center mb-1">
+                                    <label for="complaint-description" class="form-label mb-0">Detailed Description *</label>
+                                    <span class="char-counter" id="char-counter">0 / 1000 characters</span>
+                                </div>
+                                <textarea id="complaint-description" class="form-control" rows="6" maxlength="1000" placeholder="Describe the grievance in detail. Include specific times, faculty/staff involved if applicable, and prior attempts to resolve..." required></textarea>
+                            </div>
+
+                            <div class="d-flex justify-between align-center mt-4 pt-3" style="border-top: 1px solid var(--slate-200);">
+                                <a href="dashboard.html" class="btn btn-outline-secondary">Cancel</a>
+                                <button type="submit" class="btn btn-primary btn-lg">Submit Grievance Ticket</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/storage.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/complaints.js"></script>
+    <script src="js/student.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            StudentController.initSubmitForm();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grievance Analytics & Reports | Admin Portal</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+    <div class="dashboard-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="dashboard-sidebar" aria-label="Administrator Navigation">
+            <div class="sidebar-header">
+                <div class="brand-icon" style="background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%); width:36px; height:36px; font-size:1.1rem;">🏛️</div>
+                <div>
+                    <h2>Admin Portal</h2>
+                    <span>Administration Desk</span>
+                </div>
+            </div>
+
+            <ul class="sidebar-menu">
+                <li><a href="dashboard.html" class="sidebar-link"><span class="sidebar-icon">📊</span> Dashboard</a></li>
+                <li><a href="complaints.html" class="sidebar-link"><span class="sidebar-icon">📋</span> All Complaints</a></li>
+                <li><a href="complaints.html?status=Submitted" class="sidebar-link"><span class="sidebar-icon">📥</span> Pending Grievances</a></li>
+                <li><a href="complaints.html?status=In Progress" class="sidebar-link"><span class="sidebar-icon">⚙️</span> In Progress</a></li>
+                <li><a href="complaints.html?status=Resolved" class="sidebar-link"><span class="sidebar-icon">✅</span> Resolved Tickets</a></li>
+                <li><a href="students.html" class="sidebar-link"><span class="sidebar-icon">👥</span> Student Directory</a></li>
+                <li><a href="reports.html" class="sidebar-link active"><span class="sidebar-icon">📈</span> Analytics & Reports</a></li>
+            </ul>
+
+            <div class="sidebar-footer">
+                <a href="javascript:void(0)" onclick="Auth.logoutAdmin('login.html')" class="btn btn-danger-soft w-100 btn-sm">🚪 Logout Admin</a>
+            </div>
+        </aside>
+
+        <div class="sidebar-overlay"></div>
+
+        <!-- Main Content Area -->
+        <div class="dashboard-main">
+            <!-- Topbar -->
+            <header class="dashboard-topbar">
+                <div class="d-flex align-center gap-2">
+                    <button type="button" class="sidebar-toggle" aria-label="Toggle menu">☰</button>
+                    <div>
+                        <h2 style="font-size: 1.2rem; margin:0;">Grievance Redressal Reports & Analytics</h2>
+                        <span class="text-muted small">Generate timeframe-based summaries and print executive reports</span>
+                    </div>
+                </div>
+
+                <div class="d-flex align-center gap-2">
+                    <button type="button" onclick="window.print()" class="btn btn-primary btn-sm">🖨️ Print / Export PDF</button>
+                </div>
+            </header>
+
+            <main class="dashboard-content">
+                <!-- Filter Controls (Hidden in print) -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h3 class="card-title">Report Parameters & Timeframe</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex gap-2 flex-wrap align-center">
+                            <div style="min-width: 180px;">
+                                <label for="report-date-preset" class="form-label mb-1">Timeframe Preset</label>
+                                <select id="report-date-preset" class="form-control">
+                                    <option value="all">All Time Records</option>
+                                    <option value="today">Today</option>
+                                    <option value="week">This Past Week (7 Days)</option>
+                                    <option value="month">This Month</option>
+                                    <option value="year">This Academic Year</option>
+                                    <option value="custom">Custom Date Range</option>
+                                </select>
+                            </div>
+
+                            <div id="custom-date-row" class="d-flex gap-2 align-center flex-wrap" style="display: none;">
+                                <div>
+                                    <label for="report-start-date" class="form-label mb-1">Start Date</label>
+                                    <input type="date" id="report-start-date" class="form-control">
+                                </div>
+                                <div>
+                                    <label for="report-end-date" class="form-label mb-1">End Date</label>
+                                    <input type="date" id="report-end-date" class="form-control">
+                                </div>
+                                <div style="margin-top: 1.5rem;">
+                                    <button type="button" id="report-apply-btn" class="btn btn-secondary">Apply Filter</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Printable Report Header -->
+                <div class="card mb-4">
+                    <div class="card-header d-flex justify-between align-center flex-wrap gap-2">
+                        <div>
+                            <h3 class="card-title">Executive Redressal Summary</h3>
+                            <span class="text-muted small">Institution: Mailam Engineering College</span>
+                        </div>
+                        <div>
+                            <span class="badge badge-primary">Generated: <script>document.write(new Date().toLocaleDateString())</script></span>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <!-- Summary KPIs Grid -->
+                        <div class="stats-grid mb-4">
+                            <div class="stat-card">
+                                <div class="stat-icon blue">📋</div>
+                                <div>
+                                    <div class="stat-value" id="report-total-count">0</div>
+                                    <div class="stat-label">Total Logged</div>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon green">✅</div>
+                                <div>
+                                    <div class="stat-value" id="report-resolved-count">0</div>
+                                    <div class="stat-label">Resolved</div>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon amber">⏳</div>
+                                <div>
+                                    <div class="stat-value" id="report-pending-count">0</div>
+                                    <div class="stat-label">Pending Review</div>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon purple">📊</div>
+                                <div>
+                                    <div class="stat-value" id="report-resolution-rate">0%</div>
+                                    <div class="stat-label">Resolution Rate</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Distribution Visual Charts -->
+                        <div class="grid-2 mb-4">
+                            <div class="card" style="border: 1px solid var(--slate-200); box-shadow: none;">
+                                <div class="card-header">
+                                    <h4 style="font-size:1rem; margin:0;">Status Distribution</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div id="chart-status-container"></div>
+                                </div>
+                            </div>
+
+                            <div class="card" style="border: 1px solid var(--slate-200); box-shadow: none;">
+                                <div class="card-header">
+                                    <h4 style="font-size:1rem; margin:0;">Grievances by Category</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div id="chart-category-container"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid-2 mb-4">
+                            <div class="card" style="border: 1px solid var(--slate-200); box-shadow: none;">
+                                <div class="card-header">
+                                    <h4 style="font-size:1rem; margin:0;">Priority Breakdown</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div id="chart-priority-container"></div>
+                                </div>
+                            </div>
+
+                            <div class="card" style="border: 1px solid var(--slate-200); box-shadow: none;">
+                                <div class="card-header">
+                                    <h4 style="font-size:1rem; margin:0;">Department Workload</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div id="chart-department-container"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Filtered Breakdown Table -->
+                        <h4 class="section-title mb-2" style="font-size:1.15rem;">Detailed Grievance Records in Timeframe</h4>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Complaint ID</th>
+                                        <th>Student</th>
+                                        <th>Title</th>
+                                        <th>Category</th>
+                                        <th>Status</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="report-breakdown-tbody">
+                                    <!-- Populated dynamically by admin.js -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/storage.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/complaints.js"></script>
+    <script src="../js/admin.js"></script>
+    <script src="../js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            AdminController.initReports();
+        });
+    </script>
+</body>
+</html>

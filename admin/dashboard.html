@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Grievance Management System</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+    <div class="dashboard-layout">
+        <!-- Admin Sidebar Navigation -->
+        <aside class="dashboard-sidebar" aria-label="Administrator Navigation">
+            <div class="sidebar-header">
+                <div class="brand-icon" style="background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%); width:36px; height:36px; font-size:1.1rem;">🏛️</div>
+                <div>
+                    <h2>Admin Portal</h2>
+                    <span>Administration Desk</span>
+                </div>
+            </div>
+
+            <ul class="sidebar-menu">
+                <li><a href="dashboard.html" class="sidebar-link active"><span class="sidebar-icon">📊</span> Dashboard</a></li>
+                <li><a href="complaints.html" class="sidebar-link"><span class="sidebar-icon">📋</span> All Complaints</a></li>
+                <li><a href="complaints.html?status=Submitted" class="sidebar-link"><span class="sidebar-icon">📥</span> Pending Grievances</a></li>
+                <li><a href="complaints.html?status=In Progress" class="sidebar-link"><span class="sidebar-icon">⚙️</span> In Progress</a></li>
+                <li><a href="complaints.html?status=Resolved" class="sidebar-link"><span class="sidebar-icon">✅</span> Resolved Tickets</a></li>
+                <li><a href="students.html" class="sidebar-link"><span class="sidebar-icon">👥</span> Student Directory</a></li>
+                <li><a href="reports.html" class="sidebar-link"><span class="sidebar-icon">📈</span> Analytics & Reports</a></li>
+            </ul>
+
+            <div class="sidebar-footer">
+                <a href="javascript:void(0)" onclick="Auth.logoutAdmin('login.html')" class="btn btn-danger-soft w-100 btn-sm">🚪 Logout Admin</a>
+            </div>
+        </aside>
+
+        <div class="sidebar-overlay"></div>
+
+        <!-- Main Content Area -->
+        <div class="dashboard-main">
+            <!-- Topbar -->
+            <header class="dashboard-topbar">
+                <div class="d-flex align-center gap-2">
+                    <button type="button" class="sidebar-toggle" aria-label="Toggle menu">☰</button>
+                    <div>
+                        <h2 style="font-size: 1.2rem; margin:0;">Administrative Command Center</h2>
+                        <span class="text-muted small" id="admin-header-name">Dean of Student Affairs</span>
+                    </div>
+                </div>
+
+                <div class="d-flex align-center gap-2">
+                    <a href="complaints.html" class="btn btn-primary btn-sm">Manage Complaints</a>
+                    <a href="reports.html" class="btn btn-outline-secondary btn-sm">Generate Report</a>
+                </div>
+            </header>
+
+            <main class="dashboard-content">
+                <!-- KPI Statistics Grid -->
+                <div class="stats-grid mb-4">
+                    <div class="stat-card">
+                        <div class="stat-icon blue">📋</div>
+                        <div>
+                            <div class="stat-value" id="stat-admin-total">0</div>
+                            <div class="stat-label">Total Complaints</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon blue">📥</div>
+                        <div>
+                            <div class="stat-value" id="stat-admin-submitted">0</div>
+                            <div class="stat-label">New / Submitted</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon purple">🔍</div>
+                        <div>
+                            <div class="stat-value" id="stat-admin-under-review">0</div>
+                            <div class="stat-label">Under Review</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon amber">⚙️</div>
+                        <div>
+                            <div class="stat-value" id="stat-admin-in-progress">0</div>
+                            <div class="stat-label">In Progress</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon green">✅</div>
+                        <div>
+                            <div class="stat-value" id="stat-admin-resolved">0</div>
+                            <div class="stat-label">Resolved</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon red">❌</div>
+                        <div>
+                            <div class="stat-value" id="stat-admin-rejected">0</div>
+                            <div class="stat-label">Rejected / Closed</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pure HTML/CSS Analytics Charts Grid -->
+                <div class="grid-2 mb-4">
+                    <!-- Status Distribution Chart -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Complaints by Status</h3>
+                        </div>
+                        <div class="card-body">
+                            <div id="chart-status-container"></div>
+                        </div>
+                    </div>
+
+                    <!-- Category Breakdown Chart -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Top Grievance Categories</h3>
+                        </div>
+                        <div class="card-body">
+                            <div id="chart-category-container"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid-2 mb-4">
+                    <!-- Priority Distribution Grid -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Complaints by Priority</h3>
+                        </div>
+                        <div class="card-body">
+                            <div id="chart-priority-container"></div>
+                        </div>
+                    </div>
+
+                    <!-- Department Assignment Breakdown -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Grievances by Assigned Department</h3>
+                        </div>
+                        <div class="card-body">
+                            <div id="chart-department-container"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Complaints Table -->
+                <div class="card">
+                    <div class="card-header d-flex justify-between align-center flex-wrap gap-2">
+                        <h3 class="card-title">Recent Student Complaints</h3>
+                        <a href="complaints.html" class="btn btn-sm btn-outline-primary">View All Grievances →</a>
+                    </div>
+                    <div class="card-body" style="padding: 0;">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Complaint ID</th>
+                                        <th>Student</th>
+                                        <th>Title & Category</th>
+                                        <th>Priority</th>
+                                        <th>Status</th>
+                                        <th>Date</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="admin-recent-complaints-tbody">
+                                    <!-- Populated dynamically by admin.js -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/storage.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/complaints.js"></script>
+    <script src="../js/admin.js"></script>
+    <script src="../js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            AdminController.initDashboard();
+        });
+    </script>
+</body>
+</html>

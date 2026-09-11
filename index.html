@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Complaint & Grievance Management System | College Portal</title>
+    <meta name="description" content="Official online portal for college students to submit, manage, and track academic, infrastructural, and campus grievances transparently.">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Main Navigation Bar -->
+    <header>
+        <nav class="navbar" aria-label="Main Navigation">
+            <div class="container navbar-container">
+                <a href="index.html" class="navbar-brand">
+                    <div class="brand-icon">🎓</div>
+                    <div class="brand-text">
+                        <h1>Mailam Engineering College</h1>
+                        <span>Student Grievance Redressal Portal</span>
+                    </div>
+                </a>
+
+                <button type="button" class="navbar-toggle" aria-label="Toggle navigation" aria-expanded="false">
+                    ☰
+                </button>
+
+                <ul class="navbar-menu">
+                    <li><a href="index.html" class="nav-link active">Home</a></li>
+                    <li><a href="submit-complaint.html" class="nav-link">Submit Complaint</a></li>
+                    <li><a href="track-complaint.html" class="nav-link">Track Complaint</a></li>
+                    <li><a href="my-complaints.html" class="nav-link">My Complaints</a></li>
+                    <li><a href="profile.html" class="nav-link">Profile</a></li>
+                </ul>
+
+                <div class="navbar-actions" id="auth-nav-slot">
+                    <a href="login.html" class="btn btn-outline-primary">Student Login</a>
+                    <a href="register.html" class="btn btn-primary">Register</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container hero-grid">
+                <div>
+                    <div class="hero-badge">
+                        <span>🛡️</span> Transparent & Confidential Campus Grievance System
+                    </div>
+                    <h1 class="hero-title">Your Voice Matters</h1>
+                    <p class="hero-subtitle">Report your concerns, share feedback, and help us improve your college experience. We guarantee fast reviews and clear accountability.</p>
+                    
+                    <div class="d-flex gap-2 flex-wrap">
+                        <a href="submit-complaint.html" class="btn btn-primary btn-lg">Submit a Complaint</a>
+                        <a href="track-complaint.html" class="btn btn-secondary btn-lg">Track Complaint</a>
+                    </div>
+                </div>
+
+                <div class="hero-card">
+                    <h3>🔍 Quick Complaint Tracker</h3>
+                    <p>Already lodged a complaint? Enter your grievance ticket ID to monitor live resolution progress.</p>
+                    <form action="track-complaint.html" method="GET" class="d-flex flex-column gap-2">
+                        <div class="form-group mb-0">
+                            <input type="text" name="id" class="form-control" placeholder="e.g. CMP-2026-00101" required style="background: rgba(255,255,255,0.9);">
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Check Status</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Live Portal Statistics -->
+        <section class="section" style="padding: 3rem 0; background: var(--white); border-bottom: 1px solid var(--slate-200);">
+            <div class="container">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon blue">📋</div>
+                        <div>
+                            <div class="stat-value" id="landing-stat-total">0</div>
+                            <div class="stat-label">Total Complaints</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon green">✅</div>
+                        <div>
+                            <div class="stat-value" id="landing-stat-resolved">0</div>
+                            <div class="stat-label">Resolved Issues</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon amber">⏳</div>
+                        <div>
+                            <div class="stat-value" id="landing-stat-pending">0</div>
+                            <div class="stat-label">Pending / In Progress</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon purple">👥</div>
+                        <div>
+                            <div class="stat-value" id="landing-stat-students">0</div>
+                            <div class="stat-label">Registered Students</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- How It Works Section -->
+        <section class="section">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">Easy Workflow</span>
+                    <h2 class="section-title">How The Grievance Portal Works</h2>
+                    <p class="section-desc">From initial filing to administrative resolution, track every stage seamlessly with complete transparency.</p>
+                </div>
+
+                <div class="grid-4">
+                    <div class="feature-card">
+                        <div class="feature-number">01</div>
+                        <h3>Register & Log In</h3>
+                        <p class="text-muted mt-2">Create your student account using your official Student ID and department details for verified grievance tracking.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-number">02</div>
+                        <h3>Submit Complaint</h3>
+                        <p class="text-muted mt-2">Specify the incident location, category, date, priority, and complete description of your concern.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-number">03</div>
+                        <h3>Admin Review</h3>
+                        <p class="text-muted mt-2">The administration evaluates the grievance and assigns it directly to the designated department head.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-number">04</div>
+                        <h3>Resolution & Updates</h3>
+                        <p class="text-muted mt-2">Receive official administration remarks and track real-time resolution updates until the ticket is resolved.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Categories Section -->
+        <section class="section" style="background: var(--white); border-top: 1px solid var(--slate-200); border-bottom: 1px solid var(--slate-200);">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">Scope of Support</span>
+                    <h2 class="section-title">Complaint & Grievance Categories</h2>
+                    <p class="section-desc">Our redressal system handles complaints across all major academic, infrastructural, and student welfare branches.</p>
+                </div>
+
+                <div class="grid-4">
+                    <div class="category-card">
+                        <div class="category-icon">📚</div>
+                        <div class="category-info">
+                            <h4>Academic</h4>
+                            <p>Coursework & syllabus issues</p>
+                        </div>
+                    </div>
+                    <div class="category-card">
+                        <div class="category-icon">👨‍🏫</div>
+                        <div class="category-info">
+                            <h4>Faculty</h4>
+                            <p>Teaching & lecture feedback</p>
+                        </div>
+                    </div>
+                    <div class="category-card">
+                        <div class="category-icon">🏢</div>
+                        <div class="category-info">
+                            <h4>Hostel</h4>
+                            <p>Room maintenance & utilities</p>
+                        </div>
+                    </div>
+                    <div class="category-card">
+                        <div class="category-icon">🍱</div>
+                        <div class="category-info">
+                            <h4>Canteen</h4>
+                            <p>Food hygiene, quality & pricing</p>
+                        </div>
+                    </div>
+                    <div class="category-card">
+                        <div class="category-icon">🚌</div>
+                        <div class="category-info">
+                            <h4>Transportation</h4>
+                            <p>Bus routes & schedule delays</p>
+                        </div>
+                    </div>
+                    <div class="category-card">
+                        <div class="category-icon">💡</div>
+                        <div class="category-info">
+                            <h4>Infrastructure</h4>
+                            <p>Fans, classrooms, sanitation</p>
+                        </div>
+                    </div>
+                    <div class="category-card">
+                        <div class="category-icon">📖</div>
+                        <div class="category-info">
+                            <h4>Library</h4>
+                            <p>Timings, book availability</p>
+                        </div>
+                    </div>
+                    <div class="category-card">
+                        <div class="category-icon">💻</div>
+                        <div class="category-info">
+                            <h4>Technical & IT</h4>
+                            <p>Campus Wi-Fi, lab equipment</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Why Use This Portal -->
+        <section class="section">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">Key Benefits</span>
+                    <h2 class="section-title">Why Use This Portal?</h2>
+                    <p class="section-desc">Designed with student welfare and swift dispute resolution at the core.</p>
+                </div>
+
+                <div class="grid-3">
+                    <div class="feature-card">
+                        <div class="stat-icon blue mb-2">⚡</div>
+                        <h3>Fast Response Time</h3>
+                        <p class="text-muted">Tickets are routed directly to the relevant departments to minimize delays and expedite solutions.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="stat-icon green mb-2">🔒</div>
+                        <h3>Safe & Confidential</h3>
+                        <p class="text-muted">Strict institutional oversight ensures complaints are treated with discretion and student privacy is protected.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="stat-icon purple mb-2">📊</div>
+                        <h3>Real-time Tracking</h3>
+                        <p class="text-muted">Stay informed at every step with live progress updates, timestamped notes, and direct admin responses.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Frequently Asked Questions -->
+        <section class="section" style="background: var(--white); border-top: 1px solid var(--slate-200);">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">Assistance</span>
+                    <h2 class="section-title">Frequently Asked Questions</h2>
+                    <p class="section-desc">Got questions about filing or tracking your complaints? Find your answers below.</p>
+                </div>
+
+                <div class="faq-list">
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>How do I track my complaint after submission?</span>
+                            <span>▾</span>
+                        </div>
+                        <div class="faq-answer">
+                            After submitting a complaint, a unique Complaint ID (e.g., <code>CMP-2026-00101</code>) is automatically generated. You can enter this ID on the "Track Complaint" page or view it directly in your "My Complaints" dashboard.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>How long does it take for a complaint to be reviewed?</span>
+                            <span>▾</span>
+                        </div>
+                        <div class="faq-answer">
+                            Standard complaints are reviewed by the administration within 24 to 48 hours. Urgent priorities (such as safety or exam disputes) are evaluated immediately on the same business day.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>Can I edit my contact details or department?</span>
+                            <span>▾</span>
+                        </div>
+                        <div class="faq-answer">
+                            Yes! Simply log in to your student account, go to the "Profile" page, update your phone number, email, or department, and click save.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>Can I submit complaints for different campus amenities?</span>
+                            <span>▾</span>
+                        </div>
+                        <div class="faq-answer">
+                            Yes. The portal supports 12 distinct categories including Academic, Hostel, Canteen, IT, Transportation, Library, Infrastructure, and Examination.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <div class="d-flex align-center gap-2 mb-2">
+                        <div class="brand-icon" style="width:36px;height:36px;font-size:1rem;">🎓</div>
+                        <h4 style="margin:0;">Mailam Engineering College</h4>
+                    </div>
+                    <p style="font-size:0.9rem; color:#94a3b8; line-height:1.6;">
+                        Student Complaint & Grievance Redressal Portal dedicated to transparent communication and excellence in student welfare.
+                    </p>
+                </div>
+
+                <div>
+                    <h4>Student Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="submit-complaint.html">Submit Complaint</a></li>
+                        <li><a href="track-complaint.html">Track Complaint</a></li>
+                        <li><a href="my-complaints.html">My Complaints</a></li>
+                        <li><a href="profile.html">Student Profile</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4>Quick Access</h4>
+                    <ul class="footer-links">
+                        <li><a href="login.html">Student Login</a></li>
+                        <li><a href="register.html">Student Registration</a></li>
+                        <li><a href="index.html#faq">FAQs & Guidelines</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4>Administration</h4>
+                    <p style="font-size:0.85rem; margin-bottom: 0.75rem;">Authorized college administrators only:</p>
+                    <a href="admin/login.html" class="btn btn-sm btn-outline-primary" style="border-color: #3b82f6; color: #93c5fd;">Admin Portal Login</a>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>© 2026 Student Complaint & Grievance Management System. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/storage.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/complaints.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Load and update live statistics
+            const stats = Storage.getStats();
+            document.getElementById('landing-stat-total').textContent = stats.totalComplaints;
+            document.getElementById('landing-stat-resolved').textContent = stats.resolvedComplaints;
+            document.getElementById('landing-stat-pending').textContent = stats.pendingComplaints + stats.inProgressComplaints;
+            document.getElementById('landing-stat-students').textContent = stats.registeredStudents;
+
+            // FAQ accordion click toggles
+            document.querySelectorAll('.faq-item').forEach(item => {
+                const q = item.querySelector('.faq-question');
+                q.addEventListener('click', () => {
+                    const ans = item.querySelector('.faq-answer');
+                    const isVisible = ans.style.display === 'block';
+                    document.querySelectorAll('.faq-answer').forEach(a => a.style.display = 'none');
+                    if (!isVisible) ans.style.display = 'block';
+                });
+            });
+            // Initial FAQ setup
+            document.querySelectorAll('.faq-answer').forEach((a, i) => {
+                if (i !== 0) a.style.display = 'none';
+            });
+        });
+    </script>
+</body>
+</html>

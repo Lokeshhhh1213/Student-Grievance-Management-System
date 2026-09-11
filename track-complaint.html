@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Complaint | Grievance Portal</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <div class="dashboard-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="dashboard-sidebar" aria-label="Student Navigation">
+            <div class="sidebar-header">
+                <div class="brand-icon" style="width:36px;height:36px;font-size:1.1rem;">🎓</div>
+                <div>
+                    <h2>Student Portal</h2>
+                    <span>Grievance Center</span>
+                </div>
+            </div>
+
+            <ul class="sidebar-menu">
+                <li><a href="dashboard.html" class="sidebar-link"><span class="sidebar-icon">📊</span> Dashboard</a></li>
+                <li><a href="submit-complaint.html" class="sidebar-link"><span class="sidebar-icon">✍️</span> Submit Complaint</a></li>
+                <li><a href="track-complaint.html" class="sidebar-link active"><span class="sidebar-icon">🔍</span> Track Complaint</a></li>
+                <li><a href="my-complaints.html" class="sidebar-link"><span class="sidebar-icon">📑</span> My Complaints</a></li>
+                <li><a href="profile.html" class="sidebar-link"><span class="sidebar-icon">👤</span> My Profile</a></li>
+            </ul>
+
+            <div class="sidebar-footer">
+                <a href="javascript:void(0)" onclick="Auth.logoutStudent('login.html')" class="btn btn-danger-soft w-100 btn-sm">🚪 Logout</a>
+            </div>
+        </aside>
+
+        <div class="sidebar-overlay"></div>
+
+        <!-- Main Content Area -->
+        <div class="dashboard-main">
+            <!-- Topbar -->
+            <header class="dashboard-topbar">
+                <div class="d-flex align-center gap-2">
+                    <button type="button" class="sidebar-toggle" aria-label="Toggle menu">☰</button>
+                    <div>
+                        <h2 style="font-size: 1.2rem; margin:0;">Track Complaint Status</h2>
+                        <span class="text-muted small">Enter your unique Complaint ID to view live progress</span>
+                    </div>
+                </div>
+
+                <div class="d-flex align-center gap-2">
+                    <a href="submit-complaint.html" class="btn btn-primary btn-sm">+ New Complaint</a>
+                </div>
+            </header>
+
+            <main class="dashboard-content">
+                <div style="max-width: 900px; margin: 0 auto;">
+                    <!-- Tracking Search Card -->
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <form id="track-search-form" class="d-flex gap-2 flex-wrap">
+                                <div style="flex: 1; min-width: 260px;">
+                                    <input type="text" id="track-input-id" class="form-control" placeholder="Enter Complaint ID (e.g. CMP-2026-00101, CMP-2026-00102)" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Track Complaint</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Tracking Result Container (Populated by student.js) -->
+                    <div id="track-result-container" style="display: none;">
+                        <!-- Dynamically injected tracking card and visual stepper -->
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/storage.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/complaints.js"></script>
+    <script src="js/student.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            StudentController.initTrack();
+        });
+    </script>
+</body>
+</html>
