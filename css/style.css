@@ -319,64 +319,6 @@ code {
 }
 
 /* ==========================================================================
-   Custom 3D Fluid Cyber Magnetic Cursor Engine
-   ========================================================================== */
-.custom-cursor-dot {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 6px;
-    height: 6px;
-    background: #6366f1;
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 999999;
-    transform: translate(-50%, -50%);
-    box-shadow: 0 0 10px rgba(99, 102, 241, 0.8), 0 0 20px rgba(99, 102, 241, 0.4);
-    transition: opacity 0.2s ease, transform 0.04s linear;
-}
-
-.custom-cursor-ring {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 32px;
-    height: 32px;
-    border: 1.5px solid rgba(99, 102, 241, 0.6);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 999998;
-    transform: translate(-50%, -50%);
-    transition: width 0.22s cubic-bezier(0.16, 1, 0.3, 1), 
-                height 0.22s cubic-bezier(0.16, 1, 0.3, 1), 
-                background 0.22s ease, 
-                border-color 0.22s ease,
-                box-shadow 0.22s ease,
-                opacity 0.2s ease;
-    backdrop-filter: blur(1px);
-}
-
-.custom-cursor-ring.hovered {
-    width: 48px;
-    height: 48px;
-    background: rgba(99, 102, 241, 0.12);
-    border-color: #6366f1;
-    box-shadow: 0 0 18px rgba(99, 102, 241, 0.35);
-}
-
-.custom-cursor-ring.clicking {
-    transform: translate(-50%, -50%) scale(0.8);
-    background: rgba(99, 102, 241, 0.28);
-}
-
-/* Hide custom cursor on touch/mobile devices */
-@media (pointer: coarse) {
-    .custom-cursor-dot, .custom-cursor-ring {
-        display: none !important;
-    }
-}
-
-/* ==========================================================================
    Ambient 3D Particle Constellation Background Canvas
    ========================================================================== */
 #ambient-3d-canvas {
@@ -520,26 +462,6 @@ code {
 @keyframes holoRotate {
     0% { filter: hue-rotate(0deg); }
     100% { filter: hue-rotate(360deg); }
-}
-
-/* Dynamic Interactive Sheen Overlay */
-.card::after, .stat-card::after, .feature-card::after, .category-card::after, .complaint-card::after, .hero-card::after, .auth-card::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    border-radius: inherit;
-    pointer-events: none;
-    background: radial-gradient(circle 350px at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0) 70%);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    z-index: 10;
-}
-
-.card:hover::after, .stat-card:hover::after, .feature-card:hover::after, .category-card:hover::after, .complaint-card:hover::after, .hero-card:hover::after, .auth-card:hover::after {
-    opacity: 1;
 }
 
 /* Floating Theme Mode Switcher */
