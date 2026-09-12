@@ -100,6 +100,37 @@ const Auth = {
         return { success: true, student: newStudent };
     },
 
+    // Reset Student Password
+    resetStudentPassword(identifier, newPassword, confirmPassword) {
+        if (!identifier || !newPassword || !confirmPassword) {
+            return { success: false, message: "Please fill in all required fields." };
+        }
+
+        const cleanId = identifier.trim();
+        const student = Storage.getStudentById(cleanId) || Storage.getStudentByEmail(cleanId);
+
+        if (!student) {
+            return { success: false, message: "No registered student account found with this ID or Email." };
+        }
+
+        if (newPassword.length < 6) {
+            return { success: false, message: "New password must be at least 6 characters long." };
+        }
+
+        if (newPassword !== confirmPassword) {
+            return { success: false, message: "New passwords do not match." };
+        }
+
+        // Update student password in Storage
+        Storage.updateStudent(student.id, { password: newPassword });
+
+        return {
+            success: true,
+            message: `Password reset successfully for ${student.name}!`,
+            student: student
+        };
+    },
+
     logoutStudent(redirectUrl = 'login.html') {
         Storage.setCurrentStudent(null);
         window.location.href = redirectUrl;

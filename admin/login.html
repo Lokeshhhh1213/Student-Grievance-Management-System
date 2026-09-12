@@ -34,7 +34,10 @@
             </div>
 
             <div class="form-group">
-                <label for="admin-password" class="form-label">Admin Password *</label>
+                <div class="d-flex justify-between align-center mb-1">
+                    <label for="admin-password" class="form-label mb-0">Admin Password *</label>
+                    <a href="javascript:void(0)" id="admin-forgot-link" class="small text-primary font-weight-600" style="text-decoration: none;">Forgot Password?</a>
+                </div>
                 <input type="password" id="admin-password" class="form-control" placeholder="••••••••" required>
             </div>
 
@@ -44,6 +47,29 @@
         <div class="text-center mt-3 pt-3" style="border-top: 1px solid var(--slate-200);">
             <p class="text-muted small">Are you a student? <a href="../login.html" class="font-weight-600">Student Portal Login</a></p>
             <p class="text-muted small mt-2"><a href="../index.html">← Return to Public Website</a></p>
+        </div>
+    </div>
+
+    <!-- Admin Forgot Password / Recovery Modal -->
+    <div id="admin-forgot-modal" class="modal-backdrop">
+        <div class="modal-dialog animate-scale-up" style="max-width: 460px;">
+            <div class="modal-header">
+                <h3 class="modal-title">🔐 Administrator Access Recovery</h3>
+                <button type="button" class="modal-close-btn" id="close-admin-forgot-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p class="text-muted small mb-3">Administrator credentials provide high-level institutional access and are protected by system security protocols.</p>
+                <div class="p-3 rounded mb-3" style="border-left: 4px solid var(--primary); background: rgba(59, 130, 246, 0.1);">
+                    <p class="mb-1 small font-weight-600 text-primary">Default Demo Administrator Account:</p>
+                    <p class="mb-1 small"><strong>Email:</strong> <code>admin@college.com</code></p>
+                    <p class="mb-0 small"><strong>Password:</strong> <code>admin123</code></p>
+                </div>
+                <p class="text-muted small mb-0">For institutional production credential recovery or password reset requests, please contact the <strong>College IT & Systems Support Cell</strong> at <code>itadmin@college.com</code>.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="cancel-admin-forgot-btn">Close</button>
+                <button type="button" class="btn btn-primary" id="auto-fill-modal-btn">Use Demo Credentials</button>
+            </div>
         </div>
     </div>
 
@@ -60,6 +86,40 @@
             const emailInput = document.getElementById('admin-email');
             const passInput = document.getElementById('admin-password');
             const fillBtn = document.getElementById('fill-admin-btn');
+
+            // Admin Forgot Password Elements
+            const adminForgotLink = document.getElementById('admin-forgot-link');
+            const adminForgotModal = document.getElementById('admin-forgot-modal');
+            const closeAdminForgotBtn = document.getElementById('close-admin-forgot-modal');
+            const cancelAdminForgotBtn = document.getElementById('cancel-admin-forgot-btn');
+            const autoFillModalBtn = document.getElementById('auto-fill-modal-btn');
+
+            const openAdminForgotModal = () => {
+                adminForgotModal.classList.add('active');
+            };
+
+            const closeAdminForgotModal = () => {
+                adminForgotModal.classList.remove('active');
+            };
+
+            if (adminForgotLink) adminForgotLink.addEventListener('click', openAdminForgotModal);
+            if (closeAdminForgotBtn) closeAdminForgotBtn.addEventListener('click', closeAdminForgotModal);
+            if (cancelAdminForgotBtn) cancelAdminForgotBtn.addEventListener('click', closeAdminForgotModal);
+
+            if (adminForgotModal) {
+                adminForgotModal.addEventListener('click', (e) => {
+                    if (e.target === adminForgotModal) closeAdminForgotModal();
+                });
+            }
+
+            if (autoFillModalBtn) {
+                autoFillModalBtn.addEventListener('click', () => {
+                    emailInput.value = 'admin@college.com';
+                    passInput.value = 'admin123';
+                    closeAdminForgotModal();
+                    showToast('Admin demo credentials populated!', 'info', 2000);
+                });
+            }
 
             if (fillBtn) {
                 fillBtn.addEventListener('click', () => {

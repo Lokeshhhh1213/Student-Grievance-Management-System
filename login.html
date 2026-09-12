@@ -36,6 +36,7 @@
             <div class="form-group">
                 <div class="d-flex justify-between align-center mb-1">
                     <label for="login-password" class="form-label mb-0">Password *</label>
+                    <a href="javascript:void(0)" id="forgot-password-link" class="small text-primary font-weight-600" style="text-decoration: none;">Forgot Password?</a>
                 </div>
                 <input type="password" id="login-password" class="form-control" placeholder="Enter your password" required>
             </div>
@@ -47,6 +48,37 @@
             <p class="text-muted small">New student? <a href="register.html" class="font-weight-600">Create an account</a></p>
             <p class="text-muted small mt-1">Are you an administrator? <a href="admin/login.html" class="font-weight-600">Admin Login</a></p>
             <p class="text-muted small mt-2"><a href="index.html">← Return to Home Page</a></p>
+        </div>
+    </div>
+
+    <!-- Forgot Password Modal -->
+    <div id="forgot-password-modal" class="modal-backdrop">
+        <div class="modal-dialog animate-scale-up" style="max-width: 440px;">
+            <div class="modal-header">
+                <h3 class="modal-title">🔐 Reset Student Password</h3>
+                <button type="button" class="modal-close-btn" id="close-forgot-modal">&times;</button>
+            </div>
+            <form id="forgot-password-form">
+                <div class="modal-body">
+                    <p class="text-muted small mb-3">Enter your registered Student ID or Email address and create a new password to recover access to your account.</p>
+                    <div class="form-group">
+                        <label for="reset-identifier" class="form-label">Student ID or Registered Email *</label>
+                        <input type="text" id="reset-identifier" class="form-control" placeholder="e.g. STU1001 or student@college.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="reset-new-password" class="form-label">New Password * (Min 6 chars)</label>
+                        <input type="password" id="reset-new-password" class="form-control" placeholder="Enter new password" minlength="6" required>
+                    </div>
+                    <div class="form-group mb-0">
+                        <label for="reset-confirm-password" class="form-label">Confirm New Password *</label>
+                        <input type="password" id="reset-confirm-password" class="form-control" placeholder="Confirm new password" minlength="6" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="cancel-forgot-btn">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Reset Password</button>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -63,6 +95,60 @@
             const idInput = document.getElementById('login-identifier');
             const passInput = document.getElementById('login-password');
             const fillBtn = document.getElementById('fill-demo-btn');
+
+            // Forgot Password Elements
+            const forgotLink = document.getElementById('forgot-password-link');
+            const forgotModal = document.getElementById('forgot-password-modal');
+            const closeForgotBtn = document.getElementById('close-forgot-modal');
+            const cancelForgotBtn = document.getElementById('cancel-forgot-btn');
+            const forgotForm = document.getElementById('forgot-password-form');
+            const resetIdInput = document.getElementById('reset-identifier');
+            const resetPassInput = document.getElementById('reset-new-password');
+            const resetConfirmPassInput = document.getElementById('reset-confirm-password');
+
+            const openForgotModal = () => {
+                // Pre-fill identifier if user already typed one in login input
+                if (idInput.value.trim()) {
+                    resetIdInput.value = idInput.value.trim();
+                }
+                resetPassInput.value = '';
+                resetConfirmPassInput.value = '';
+                forgotModal.classList.add('active');
+                setTimeout(() => resetIdInput.focus(), 100);
+            };
+
+            const closeForgotModal = () => {
+                forgotModal.classList.remove('active');
+            };
+
+            if (forgotLink) forgotLink.addEventListener('click', openForgotModal);
+            if (closeForgotBtn) closeForgotBtn.addEventListener('click', closeForgotModal);
+            if (cancelForgotBtn) cancelForgotBtn.addEventListener('click', closeForgotModal);
+
+            if (forgotModal) {
+                forgotModal.addEventListener('click', (e) => {
+                    if (e.target === forgotModal) closeForgotModal();
+                });
+            }
+
+            if (forgotForm) {
+                forgotForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const identifier = resetIdInput.value.trim();
+                    const newPass = resetPassInput.value;
+                    const confirmPass = resetConfirmPassInput.value;
+
+                    const result = Auth.resetStudentPassword(identifier, newPass, confirmPass);
+                    if (result.success) {
+                        closeForgotModal();
+                        idInput.value = result.student.id;
+                        passInput.value = newPass;
+                        showToast(`Password reset successfully for ${result.student.name}! Auto-filled for login.`, 'success', 3500);
+                    } else {
+                        showToast(result.message, 'error', 3000);
+                    }
+                });
+            }
 
             if (fillBtn) {
                 fillBtn.addEventListener('click', () => {
