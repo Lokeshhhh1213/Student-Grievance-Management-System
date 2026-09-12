@@ -245,9 +245,9 @@ code {
 }
 
 [data-theme="dark"] code {
-    background: #1f2937;
-    color: #a5b4fc;
-    border-color: #374151;
+    background: #0f172a;
+    color: #93c5fd;
+    border-color: #334155;
 }
 
 /* Scrollbar */
