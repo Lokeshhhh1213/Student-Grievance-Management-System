@@ -197,6 +197,10 @@ html {
     height: 100%;
 }
 
+section[id], footer[id] {
+    scroll-margin-top: 85px;
+}
+
 body {
     font-family: var(--font-body);
     background-color: var(--body-bg);

@@ -213,15 +213,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const authNavSlot = document.getElementById('auth-nav-slot');
     if (authNavSlot && typeof Storage !== 'undefined') {
         const student = Storage.getCurrentStudent();
+        const admin = Storage.getCurrentAdmin();
         if (student) {
             authNavSlot.innerHTML = `
-                <a href="dashboard.html" class="btn btn-outline-primary btn-sm">Dashboard</a>
+                <a href="dashboard.html" class="btn btn-primary btn-sm">Student Dashboard</a>
                 <a href="javascript:void(0)" onclick="Auth.logoutStudent('index.html')" class="btn btn-danger-soft btn-sm">Logout</a>
+            `;
+        } else if (admin) {
+            authNavSlot.innerHTML = `
+                <a href="admin/dashboard.html" class="btn btn-primary btn-sm">Admin Dashboard</a>
+                <a href="javascript:void(0)" onclick="Auth.logoutAdmin('index.html')" class="btn btn-danger-soft btn-sm">Logout</a>
             `;
         } else {
             authNavSlot.innerHTML = `
-                <a href="login.html" class="btn btn-outline-primary btn-sm">Student Login</a>
-                <a href="register.html" class="btn btn-primary btn-sm">Register</a>
+                <a href="register.html" class="btn btn-outline-primary btn-sm">Register</a>
+                <a href="login.html" class="btn btn-primary btn-sm">Student Login</a>
+                <a href="admin/login.html" class="btn btn-secondary btn-sm">Admin Login</a>
             `;
         }
         // Re-check theme toggle
